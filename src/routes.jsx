@@ -51,6 +51,57 @@ const routes = [
     layout: AdminLayout,
     routes: [
       {
+        exact:'true',
+        path:'/app/users/view',
+        element: lazy(()=>import('./views/users'))
+      },
+      {
+        exact:'true',
+        path:'/app/users/create',
+        element: lazy(()=>import('./views/users/create'))
+      },
+      {
+        exact:'true',
+        path:'/app/countries',
+        element: lazy(()=>import('./views/countries'))
+      },
+      {
+        exact:'true',
+        path:'/app/states',
+        element: lazy(()=>import('./views/states'))
+      },
+      {
+        exact:'true',
+        path:'/app/districts',
+        element: lazy(()=>import('./views/districts'))
+      },
+      {
+        exact:'true',
+        path:'/app/lok_constituency',
+        element: lazy(()=>import('./views/loksabha_constituency'))
+      },
+      {
+        exact:'true',
+        path:'/app/leg_constituency',
+        element: lazy(()=>import('./views/legislative_constituency'))
+      },
+      {
+        exact:'true',
+        path:'/app/party/view',
+        element: lazy(()=>import('./views/party'))
+      },
+      {
+        exact:'true',
+        path:'/app/party/create',
+        element: lazy(()=>import('./views/party/create'))
+      },
+      {
+        exact:'true',
+        path:'/app/voters',
+        element: lazy(()=>import('./views/voters'))
+      },
+      /**OLD */
+      {
         exact: 'true',
         path: '/app/dashboard/default',
         element: lazy(() => import('./views/dashboard'))

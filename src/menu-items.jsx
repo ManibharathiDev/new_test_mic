@@ -16,6 +16,102 @@ const menuItems = {
       ]
     },
     {
+      id:'master',
+      title:'MASTER',
+      type:'group',
+      icon:'icon-ui',
+      children:[
+        {
+            id: 'users',
+            title: 'Users',
+            type: 'collapse',
+            //url: '/app/users',
+            children:[
+              {
+                id:'view_users',
+                title:'View User',
+                type:'item',
+                url: '/app/users/view',
+              },
+              {
+                  id:'create_users',
+                  title:'Create New User',
+                  type:'item',
+                  url: '/app/users/create',
+              }
+            ]
+        },
+        {
+          id: 'parties',
+          title: 'Party',
+          type: 'collapse',
+          //url: '/app/users',
+          children:[
+            {
+              id:'view_party',
+              title:'View Parties',
+              type:'item',
+              url: '/app/party/view',
+            },
+            {
+                id:'create_parties',
+                title:'Create New Party',
+                type:'item',
+                url: '/app/party/create',
+            }
+          ]
+      },
+        {
+          id: 'countries',
+          title: 'Country',
+          type: 'collapse',
+          // icon: 'icon-ui',
+          // url: '/app/countries',
+          children:[
+            {
+              id:'view_country',
+              title:'View Country',
+              type:'item',
+              url: '/app/countries',
+            },
+            {
+                id:'create_country',
+                title:'Create New Country',
+                type:'item',
+            }
+          ]
+        },
+        {
+          id: 'states',
+          title: 'States',
+          type: 'item',
+          icon: 'icon-ui',
+          url: '/app/states',
+        },
+        {
+          id: 'districts',
+          title: 'District',
+          type: 'item',
+          icon: 'icon-ui',
+          url: '/app/districts',
+        },
+        {
+          id: 'lok_constituency',
+          title: 'Loksabha Constitency',
+          type: 'item',
+          icon: 'icon-ui',
+          url: '/app/lok_constituency',
+        },
+        {
+          id: 'leg_constituency',
+          title: 'Legislative Constitency',
+          type: 'item',
+          icon: 'icon-ui',
+          url: '/app/leg_constituency',
+        },
+      ]
+    },
+    {
       id: 'ui-element',
       title: 'UI ELEMENT',
       type: 'group',
@@ -145,14 +241,14 @@ const menuItems = {
             }
           ]
         },
-        {
-          id: 'sample-page',
-          title: 'Sample Page',
-          type: 'item',
-          url: '/sample-page',
-          classes: 'nav-item',
-          icon: 'feather icon-sidebar'
-        },
+        // {
+        //   id: 'sample-page',
+        //   title: 'Sample Page',
+        //   type: 'item',
+        //   url: '/sample-page',
+        //   classes: 'nav-item',
+        //   icon: 'feather icon-sidebar'
+        // },
         {
           id: 'documentation',
           title: 'Documentation',
