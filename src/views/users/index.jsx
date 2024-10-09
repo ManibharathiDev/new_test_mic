@@ -1,6 +1,5 @@
 import React from 'react';
 import { Row, Col, Card, Table, Tabs, Tab,Button, OverlayTrigger, Tooltip, ButtonToolbar, Dropdown, DropdownButton, SplitButton } from 'react-bootstrap';
-
 import { Link } from 'react-router-dom';
 const Users = () =>{
     return (
@@ -10,7 +9,6 @@ const Users = () =>{
             <Card>
               <Card.Header>
                 <Card.Title as="h5">User Details</Card.Title>
-                <Button>Create New User</Button>
               </Card.Header>
               <Card.Body>
                 <Table responsive>
