@@ -32,13 +32,13 @@ const Signin1 = () => {
                   Reset
                 </NavLink>
               </p>
-              <p className="mb-0 text-muted">
+              {/* <p className="mb-0 text-muted">
                 Don’t have an account?{' '}
                 <NavLink to="/auth/signup-1" className="f-w-400">
                   Signup
                 </NavLink>
-              </p>
-              <Alert variant="primary" className="text-start mt-3">
+              </p> */}
+              {/* <Alert variant="primary" className="text-start mt-3">
                 User:
                 <CopyToClipboard text="info@codedthemes.com">
                   <Button variant="outline-primary" as={Link} to="#" className="badge mx-2 mb-2" size="sm">
@@ -52,7 +52,7 @@ const Signin1 = () => {
                     <i className="fa fa-lock" /> 123456
                   </Button>
                 </CopyToClipboard>
-              </Alert>
+              </Alert> */}
             </Card.Body>
           </Card>
         </div>

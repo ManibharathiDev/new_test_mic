@@ -1,11 +1,15 @@
 //testing
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useState } from 'react';
 import axios from "axios";
 import { Row, Col, Card, Table, Tabs, Tab,Button, OverlayTrigger, Tooltip, ButtonToolbar, Dropdown, DropdownButton, SplitButton, CardBody, Form } from 'react-bootstrap';
+import { Link,useParams } from 'react-router-dom';
 
-import { Link } from 'react-router-dom';
-const CreateUser = () =>{
+const EditUser = () =>{
+    //const params = useParams();
+    const {id} = useParams();
+    console.log(`Current User Id ${id}`);
+    const [user,setUser] = useState({});
 
   const [data, setData] = useState({
     usertype: "",
@@ -15,10 +19,28 @@ const CreateUser = () =>{
     usercode:"",
     mobile:"",
   });
-
-  //const [userType,setUserType] = useState("");
   const [isPartyEnabled,setIsPartyEnabled] = useState(false);
-  const partyProps = {};
+  const fetchUserById = () => {
+    try {
+        axios.get(`http://127.0.0.1:8000/api/user/${id}`)
+        .then(response =>{
+            console.log(response.data);
+            setData({
+                    usertype:"",
+                    party:"",
+                    name:response.data.data.name,
+                    email:response.data.data.email,
+                    usercode:response.data.data.user_code,
+                    mobile:response.data.data.mobile_number
+                });
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    } catch (error) {
+        console.log(error);
+    }
+  }
 
   const handleChange = (e) =>{
     const value = e.target.value
@@ -36,7 +58,6 @@ const CreateUser = () =>{
           setIsPartyEnabled(false);
         }
     }
-  
     console.log("Party is Selected",e.target.value);
   }
 
@@ -51,8 +72,7 @@ const CreateUser = () =>{
         party:data.party,
         mobile:data.mobile
       };
-      const headers = { 'Authorization': 'Bearer 25|iDa4bOxWyof9NCJiHoThrMDcLVwIgTi5b3Mk2Ixkeac05fb8' };
-      axios.post('http://127.0.0.1:8000/api/auth/register',userData,{headers})
+      axios.post(`http://127.0.0.1:8000/api/user/update/${id}`,userData)
       .then((response)=>{
         console.log(response);
         console.log(response.data.status, response.data.message);
@@ -70,13 +90,17 @@ const CreateUser = () =>{
       });
   }
 
+  useEffect(()=> {
+    fetchUserById();
+    }, [id]);
+
     return (
       <React.Fragment>
         <Row>
           <Col>
             <Card>
               <Card.Header>
-                <Card.Title as="h5">Create New User</Card.Title>
+                <Card.Title as="h5">Edit User</Card.Title>
                
               </Card.Header>
                  <CardBody>
@@ -156,4 +180,4 @@ const CreateUser = () =>{
       </React.Fragment>
     );
   };
-export default CreateUser;
+export default EditUser;

@@ -2,19 +2,45 @@ import React from 'react';
 import { Row, Col, Alert, Button } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+import axios from 'axios';
+import { useState } from 'react';
 
 const JWTLogin = () => {
+ 
+  const [data, setData] = useState({
+    email:"",
+    password:"",
+  });
+
   return (
     <Formik
       initialValues={{
-        email: 'info@codedthemes.com',
-        password: '123456',
+        email: '',
+        password: '',
         submit: null
       }}
+      onSubmit={(values ) =>{
+        
+          const userData = {
+            email: values.email,
+            password:values.password
+          };
+            axios.post('http://127.0.0.1:8000/api/auth/login',userData)
+            .then((response)=>{
+              console.log(response);
+              console.log(response.data.status, response.data.message);
+                if(response.data.status == true)
+                {
+                     alert("Loggied In") ;
+                }
+            });
+        }
+      }
       validationSchema={Yup.object().shape({
         email: Yup.string().email('Must be a valid email').max(255).required('Email is required'),
         password: Yup.string().max(255).required('Password is required')
       })}
+      
     >
       {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
         <form noValidate onSubmit={handleSubmit}>
@@ -59,7 +85,7 @@ const JWTLogin = () => {
           <Row>
             <Col mt={2}>
               <Button className="btn-block mb-4" color="primary" disabled={isSubmitting} size="large" type="submit" variant="primary">
-                Signin
+                {isSubmitting ? "Please wait..." : "Signin"}
               </Button>
             </Col>
           </Row>

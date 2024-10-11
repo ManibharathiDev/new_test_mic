@@ -17,6 +17,7 @@ const ConfigProvider = ({ children }) => {
 
   const [state, dispatch] = useReducer((state, action) => {
     switch (action.type) {
+
       case actionType.CHANGE_LAYOUT:
         return {
           ...state,

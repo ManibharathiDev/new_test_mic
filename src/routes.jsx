@@ -62,6 +62,11 @@ const routes = [
       },
       {
         exact:'true',
+        path:'/app/users/edit/:id',
+        element: lazy(()=>import('./views/users/edit'))
+      },
+      {
+        exact:'true',
         path:'/app/countries',
         element: lazy(()=>import('./views/countries'))
       },
