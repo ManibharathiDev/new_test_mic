@@ -3,9 +3,16 @@ import { Row, Col, Alert, Button } from 'react-bootstrap';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 import axios from 'axios';
-import { useState } from 'react';
+import { useState,useContext } from 'react';
+import { useSelector,useDispatch } from 'react-redux';
+import { ConfigContext } from 'contexts/ConfigContext';
+import * as actionType from '../../../store/actions';
 
 const JWTLogin = () => {
+
+  const configContext = useContext(ConfigContext);
+  const { loginLogout } = configContext.state;
+  const { dispatch } = configContext;
  
   const [data, setData] = useState({
     email:"",
@@ -32,6 +39,7 @@ const JWTLogin = () => {
                 if(response.data.status == true)
                 {
                      alert("Loggied In") ;
+                     dispatch({ type: actionType.LOGIN,payLoad:null});
                 }
             });
         }

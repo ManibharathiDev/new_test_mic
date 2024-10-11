@@ -6,7 +6,10 @@ import { CONFIG } from '../config/constant';
 const initialState = {
   ...CONFIG,
   isOpen: [],
-  isTrigger: []
+  isTrigger: [],
+  isLoggedIn: false,
+  isInitialized: false,
+  user: null
 };
 const ConfigContext = createContext(initialState);
 const { Provider } = ConfigContext;
@@ -17,6 +20,15 @@ const ConfigProvider = ({ children }) => {
 
   const [state, dispatch] = useReducer((state, action) => {
     switch (action.type) {
+
+      case actionType.LOGIN:
+        //const { user } = action.payload;
+      return {
+        ...state,
+        isLoggedIn: true,
+        isInitialized: true,
+        user:null
+      };
 
       case actionType.CHANGE_LAYOUT:
         return {
