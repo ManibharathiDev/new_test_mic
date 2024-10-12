@@ -9,6 +9,7 @@ import avatar1 from '../../../../assets/images/user/avatar-1.jpg';
 import avatar2 from '../../../../assets/images/user/avatar-2.jpg';
 import avatar3 from '../../../../assets/images/user/avatar-3.jpg';
 import avatar4 from '../../../../assets/images/user/avatar-4.jpg';
+import secureLocalStorage from 'react-secure-storage';
 
 const NavRight = () => {
   const [listOpen, setListOpen] = useState(false);
@@ -34,14 +35,19 @@ const NavRight = () => {
     }
   ];
 
+  const handleLogout = () =>{
+    secureLocalStorage.removeItem("STATUS");
+    window.location.replace("/admin/login");
+  }
+
   return (
     <React.Fragment>
       <ListGroup as="ul" bsPrefix=" " className="navbar-nav ml-auto" id="navbar-right">
         <ListGroup.Item as="li" bsPrefix=" ">
           <Dropdown align="end">
-            <Dropdown.Toggle as={Link} variant="link" to="#" id="dropdown-basic">
+            {/* <Dropdown.Toggle as={Link} variant="link" to="#" id="dropdown-basic">
               <i className="feather icon-bell icon" />
-            </Dropdown.Toggle>
+            </Dropdown.Toggle> */}
             <Dropdown.Menu align="end" className="notification notification-scroll">
               <div className="noti-head">
                 <h6 className="d-inline-block m-b-0">Notifications</h6>
@@ -110,9 +116,9 @@ const NavRight = () => {
         </ListGroup.Item>
         <ListGroup.Item as="li" bsPrefix=" ">
           <Dropdown>
-            <Dropdown.Toggle as={Link} variant="link" to="#" className="displayChatbox" onClick={() => setListOpen(true)}>
+            {/* <Dropdown.Toggle as={Link} variant="link" to="#" className="displayChatbox" onClick={() => setListOpen(true)}>
               <i className="icon feather icon-mail" />
-            </Dropdown.Toggle>
+            </Dropdown.Toggle> */}
           </Dropdown>
         </ListGroup.Item>
         <ListGroup.Item as="li" bsPrefix=" ">
@@ -123,8 +129,8 @@ const NavRight = () => {
             <Dropdown.Menu align="end" className="profile-notification">
               <div className="pro-head">
                 <img src={avatar1} className="img-radius" alt="User Profile" />
-                <span>John Doe</span>
-                <Link to="#" className="dud-logout" title="Logout">
+                <span>Mariappan - Admin</span>
+                <Link to="#" onClick={()=>handleLogout()} className="dud-logout" title="Logout">
                   <i className="feather icon-log-out" />
                 </Link>
               </div>
@@ -145,8 +151,8 @@ const NavRight = () => {
                   </Link>
                 </ListGroup.Item>
                 <ListGroup.Item as="li" bsPrefix=" ">
-                  <Link to="#" className="dropdown-item">
-                    <i className="feather icon-lock" /> Lock Screen
+                  <Link to="#" onClick={()=>handleLogout()} className="dropdown-item">
+                    <i className="feather icon-lock" /> Logout
                   </Link>
                 </ListGroup.Item>
               </ListGroup>

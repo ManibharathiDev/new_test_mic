@@ -3,7 +3,27 @@ import axios from "axios";
 import { Row, Col, Card, Table, Tabs, Tab } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useState,useEffect } from 'react';
+import secureLocalStorage from 'react-secure-storage';
 const Parties = () =>{
+
+  let token = "";
+  let bearer = ""
+  if(secureLocalStorage.getItem("STATUS") != null)
+    {
+        console.log("Get");
+        const data = JSON.parse(secureLocalStorage.getItem("STATUS"));
+        if(!data.status)
+        {
+          window.location.replace("/admin/login");
+        }
+        token = data.token;
+        bearer = 'Bearer '+token;
+        
+    }
+    else{
+      window.location.replace("/admin/login");
+    }
+
   const [parties, setParties] = useState([]);
   const [page, setPage] = useState(1);
 
@@ -28,7 +48,8 @@ const Parties = () =>{
   }
 
   const deleteParty = (id,idx) =>{
-    axios.delete(`http://127.0.0.1:8000/api/user/delete/${id}`)  
+    const headers = { 'Authorization': bearer };
+    axios.delete(`http://127.0.0.1:8000/api/user/delete/${id}`,{ headers })  
     .then(res => {  
       const data = parties.data.filter(item=>item.id !=id);
       setParties({ ...parties, data: data })
@@ -79,7 +100,8 @@ const renderBody = () => {
 
   const fetchParties = async () => {
     try {
-        const response = await axios.get(`http://127.0.0.1:8000/api/party?page=${page}`);
+      const headers = { 'Authorization': bearer };
+        const response = await axios.get(`http://127.0.0.1:8000/api/party?page=${page}`,{ headers });
         setParties(response.data);
     } catch (error) {
         console.log(error);

@@ -157,3 +157,5 @@ Please generate a [GitHub issue](https://github.com/codedthemes/datta-able-free-
 - Twitter [https://twitter.com/codedthemes](https://twitter.com/codedthemes)
 
 - install npm install axios --save
+
+- npm install react-secure-storage

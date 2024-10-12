@@ -1,10 +1,16 @@
 import React from 'react';
 import { Row, Col, Card, Table, Tabs, Tab } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import { useContext,useEffect } from 'react';
+import { ConfigContext } from 'contexts/ConfigContext';
+import * as actionType from 'store/actions'
 
 import avatar1 from '../../assets/images/user/avatar-1.jpg';
 import avatar2 from '../../assets/images/user/avatar-2.jpg';
 import avatar3 from '../../assets/images/user/avatar-3.jpg';
+import secureLocalStorage from 'react-secure-storage';
+
+
 
 const dashSalesData = [
   { title: 'Daily Sales', amount: '$249.95', icon: 'icon-arrow-up text-c-green', value: 50, class: 'progress-c-theme' },
@@ -13,6 +19,51 @@ const dashSalesData = [
 ];
 
 const DashDefault = () => {
+
+  const configContext = useContext(ConfigContext);
+  const { isLoggedIn } = configContext.state;
+  const { dispatch } = configContext;
+
+  if(secureLocalStorage.getItem("STATUS") != null)
+  {
+      console.log("Get");
+      const data = JSON.parse(secureLocalStorage.getItem("STATUS"));
+      if(!data.status)
+      {
+        window.location.replace("/admin/login");
+      }
+  }
+  else{
+    window.location.replace("/admin/login");
+  }
+  
+  
+  // console.log("Dashboard Logged In Status ",isLoggedIn);
+  // const data = JSON.parse(localStorage.getItem("STATUS"))
+  // console.log("inside",data);  
+  // if(!data.status)
+  // {
+  //    window.location.replace("/admin/login");
+  // }
+
+  // if(!isLoggedIn)
+  // {
+  //    console.log("Logged In here");
+  //    window.location.replace("/admin/login");
+  //    alert("Test");
+  //     //return redirect("/app/users/view");
+  // }
+
+  // useEffect(()=> {
+  //    const data = localStorage.getItem("STATUS");
+     
+  //    if(data.status)
+  //    {
+  //      console.log("inside");
+  //      dispatch({ type: actionType.LOGIN,payLoad:localStorage.getItem("STATUS")});
+  //    }
+  // }, [page]);
+
   const tabContent = (
     <React.Fragment>
       <div className="d-flex friendlist-box align-items-center justify-content-center m-b-20">

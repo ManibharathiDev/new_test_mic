@@ -3,7 +3,25 @@ import axios from "axios";
 import { useEffect } from 'react';
 import { Row, Col, Card, Table, Tabs, Tab,Button, OverlayTrigger, Tooltip, ButtonToolbar, Dropdown, DropdownButton, SplitButton } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import secureLocalStorage from 'react-secure-storage';
 const Users = () =>{
+  let token = "";
+  let bearer = ""
+  if(secureLocalStorage.getItem("STATUS") != null)
+    {
+        console.log("Get");
+        const data = JSON.parse(secureLocalStorage.getItem("STATUS"));
+        if(!data.status)
+        {
+          window.location.replace("/admin/login");
+        }
+        token = data.token;
+        bearer = 'Bearer '+token;
+        
+    }
+    else{
+      window.location.replace("/admin/login");
+    }
 
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
@@ -29,7 +47,8 @@ const Users = () =>{
   }
 
   const deleteUser = (id,idx) =>{
-    axios.delete(`http://127.0.0.1:8000/api/user/delete/${id}`)  
+    const headers = { 'Authorization': bearer };
+    axios.delete(`http://127.0.0.1:8000/api/user/delete/${id}`,{ headers })  
     .then(res => {  
       const data = users.data.filter(item=>item.id !=id);
       setUsers({ ...users, data: data })
@@ -79,8 +98,9 @@ const renderBody = () => {
 }
 
   const fetchUsers = async () => {
+    console.log("Bearer ",bearer);
     try {
-        const headers = { 'Authorization': 'Bearer 25|iDa4bOxWyof9NCJiHoThrMDcLVwIgTi5b3Mk2Ixkeac05fb8' };
+        const headers = { 'Authorization': bearer };
         const response = await axios.get(`http://127.0.0.1:8000/api/user?page=${page}`,{ headers });
         setUsers(response.data);
     } catch (error) {

@@ -3,6 +3,12 @@ import React, { createContext, useReducer } from 'react';
 import * as actionType from '../store/actions';
 import { CONFIG } from '../config/constant';
 
+const authInitialState = {
+  isLoggedIn: false,
+  isInitialized: false,
+  user: null
+};
+
 const initialState = {
   ...CONFIG,
   isOpen: [],
@@ -17,17 +23,19 @@ const { Provider } = ConfigContext;
 const ConfigProvider = ({ children }) => {
   let trigger = [];
   let open = [];
+  
 
   const [state, dispatch] = useReducer((state, action) => {
     switch (action.type) {
 
       case actionType.LOGIN:
+        console.log("Action",action);
         //const { user } = action.payload;
       return {
         ...state,
         isLoggedIn: true,
         isInitialized: true,
-        user:null
+        user:action.payload
       };
 
       case actionType.CHANGE_LAYOUT:
@@ -103,8 +111,30 @@ const ConfigProvider = ({ children }) => {
   return <Provider value={{ state, dispatch }}>{children}</Provider>;
 };
 
+const LoginLogout = (state=initialState,action) =>{
+  
+  switch(action.type)
+  {
+      
+      case actionType.LOGIN:
+        return {
+          ...state,
+          isLoggedIn: true,
+          isInitialized: true,
+          user:action.payload
+        };
+      
+      default:
+          return state;
+  }
+  
+}
+
 ConfigProvider.propTypes = {
   children: PropTypes.object
 };
 
 export { ConfigContext, ConfigProvider };
+export const useAuth = () => {
+  return useContext(ConfigContext);
+};

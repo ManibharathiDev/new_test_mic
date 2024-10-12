@@ -7,17 +7,24 @@ import { useState,useContext } from 'react';
 import { useSelector,useDispatch } from 'react-redux';
 import { ConfigContext } from 'contexts/ConfigContext';
 import * as actionType from '../../../store/actions';
+import { redirect } from 'react-router-dom';
+import secureLocalStorage from 'react-secure-storage';
 
 const JWTLogin = () => {
 
   const configContext = useContext(ConfigContext);
-  const { loginLogout } = configContext.state;
+  const { isLoggedIn } = configContext.state;
   const { dispatch } = configContext;
- 
-  const [data, setData] = useState({
-    email:"",
-    password:"",
-  });
+
+  if(secureLocalStorage.getItem("STATUS") != null)
+    {
+        console.log("Get");
+        const data = JSON.parse(secureLocalStorage.getItem("STATUS"));
+        if(data.status)
+        {
+          window.location.replace("/admin/app/dashboard/default/");
+        }
+    }
 
   return (
     <Formik
@@ -38,8 +45,9 @@ const JWTLogin = () => {
               console.log(response.data.status, response.data.message);
                 if(response.data.status == true)
                 {
-                     alert("Loggied In") ;
-                     dispatch({ type: actionType.LOGIN,payLoad:null});
+                  secureLocalStorage.setItem("STATUS",JSON.stringify(response.data));
+                  window.location.replace("/admin/app/dashboard/default/");
+                     //dispatch({ type: actionType.LOGIN,payLoad:localStorage.getItem("STATUS")});
                 }
             });
         }
