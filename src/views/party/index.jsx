@@ -2,7 +2,8 @@ import React from 'react';
 import axios from "axios";
 import { Row, Col, Card, Table, Tabs, Tab } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { useState,useEffect } from 'react';
+// import { useState,useEffect } from 'react';
+// test
 import secureLocalStorage from 'react-secure-storage';
 const Parties = () =>{
 
