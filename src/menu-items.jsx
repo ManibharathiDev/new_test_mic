@@ -61,6 +61,38 @@ const menuItems = {
             }
           ]
       },
+      {
+        id: 'voters',
+        title: 'Voters',
+        type: 'collapse',
+        //url: '/app/users',
+        children:[
+          {
+            id:'view_voters',
+            title:'View Voters',
+            type:'item',
+            url: '/app/voters/view',
+          },
+          {
+              id:'create_voters',
+              title:'Create New Voters',
+              type:'item',
+              url: '/app/voters/create',
+          },
+          {
+            id:'import_voters',
+            title:'Import Voters',
+            type:'item',
+            url: '/app/voters/import',
+          },
+          {
+            id:'export_voters',
+            title:'Export Voters',
+            type:'item',
+            url: '/app/voters/export',
+          }
+        ]
+    },
         {
           id: 'countries',
           title: 'Country',

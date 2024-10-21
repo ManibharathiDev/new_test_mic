@@ -102,7 +102,17 @@ const routes = [
       },
       {
         exact:'true',
-        path:'/app/voters',
+        path:'/app/voters/import',
+        element: lazy(()=>import('./views/voters/import'))
+      },
+      {
+        exact:'true',
+        path:'/app/voters/export',
+        element: lazy(()=>import('./views/voters/export'))
+      },
+      {
+        exact:'true',
+        path:'/app/voters/import',
         element: lazy(()=>import('./views/voters'))
       },
       /**OLD */
