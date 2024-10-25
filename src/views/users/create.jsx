@@ -1,11 +1,27 @@
 //testing
 import React from 'react';
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import axios from "axios";
 import { Row, Col, Card, Table, Tabs, Tab,Button, OverlayTrigger, Tooltip, ButtonToolbar, Dropdown, DropdownButton, SplitButton, CardBody, Form } from 'react-bootstrap';
-
+import secureLocalStorage from 'react-secure-storage';
 import { Link } from 'react-router-dom';
 const CreateUser = () =>{
+
+  let token = "";
+  let bearer = ""
+  if(secureLocalStorage.getItem("STATUS") != null)
+    {
+        const data = JSON.parse(secureLocalStorage.getItem("STATUS"));
+        if(!data.status)
+        {
+          window.location.replace("/admin/login");
+        }
+        token = data.token;
+        bearer = 'Bearer '+token;
+    }
+    else{
+      window.location.replace("/admin/login");
+    }
 
   const [data, setData] = useState({
     usertype: "",
@@ -18,6 +34,7 @@ const CreateUser = () =>{
 
   //const [userType,setUserType] = useState("");
   const [isPartyEnabled,setIsPartyEnabled] = useState(false);
+  const [party,setParty] = useState(null);
   const partyProps = {};
 
   const handleChange = (e) =>{
@@ -70,6 +87,29 @@ const CreateUser = () =>{
       });
   }
 
+  const fetchParties = async () => {
+    try {
+        const headers = { 'Authorization': bearer };
+        const response = await axios.get(`http://127.0.0.1:8000/api/party/fetch`,{ headers });
+        setParty(response.data.data);
+    } catch (error) {
+        setParty(null);
+        console.log(error);
+    }
+  }
+
+  const renderParties = () =>{
+    return party?.map((data,index) => (
+      <option value={data.id} key={data.id}>
+          {data.name}
+      </option>
+  ))
+  }
+
+  useEffect(()=> {
+    fetchParties();
+    }, []);
+
     return (
       <React.Fragment>
         <Row>
@@ -99,6 +139,9 @@ const CreateUser = () =>{
                             <Form.Label>Select Party</Form.Label>
                             <Form.Control as="select" name="party" value={data.party} onChange={handleChange} disabled={isPartyEnabled}>
                              <option value="">Select Party</option>
+                             {
+                                renderParties()
+                             }
                             </Form.Control>
                           </Form.Group>
                             </Col>

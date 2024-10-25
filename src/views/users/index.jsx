@@ -106,7 +106,7 @@ const renderBody = () => {
     } catch (error) {
         console.log(error);
     }
-}
+  }
 
   useEffect(()=> {
     fetchUsers();

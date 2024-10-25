@@ -62,6 +62,11 @@ const routes = [
       },
       {
         exact:'true',
+        path:'/app/users/mapping',
+        element: lazy(()=>import('./views/users/mapping'))
+      },
+      {
+        exact:'true',
         path:'/app/users/edit/:id',
         element: lazy(()=>import('./views/users/edit'))
       },

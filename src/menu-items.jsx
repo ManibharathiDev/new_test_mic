@@ -38,6 +38,12 @@ const menuItems = {
                   title:'Create New User',
                   type:'item',
                   url: '/app/users/create',
+              },
+              {
+                id:'user_mapping',
+                title:'Assembly Mapping',
+                type:'item',
+                url: '/app/users/mapping',
               }
             ]
         },
