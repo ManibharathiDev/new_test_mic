@@ -27,6 +27,9 @@ const Mapping = () =>{
     const [loksaba, setLokSaba] = useState([]);
     const [constituency,setConstituency] = useState([]);
     const [party,setParty] = useState([]);
+    const [partyId,setPartyId] = useState("");
+    const [loksabaId,setLokSabaId] = useState("");
+    const [userId,setUserId] = useState("");
     const [users,setUsers] = useState([]);
     const [data,setData] = useState(null);
     const [selectedCons,setSelectedCons] = useState([]);
@@ -69,14 +72,18 @@ const Mapping = () =>{
       }
 
       const handlePartyChange = (e) =>{
-        var partyId = e.target.value;
-        fetchUsers(partyId);
+        setPartyId(e.target.value);
+        fetchUsers(e.target.value);
       }
   
       const handleLokSabaChange = (e) =>{
           var lokId = e.target.value;
-          console.log("LOK Id",lokId);
+          setLokSabaId(lokId);
           fetchConstitency(lokId)
+      }
+
+      const handleUserChange = (e) =>{
+          setUserId(e.target.value);
       }
 
       const fetchUsers = async(partyId) =>{
@@ -131,18 +138,32 @@ const Mapping = () =>{
       ))
       }
 
-      const onSelect = (selectedList, selectedItem) =>{
-            console.log("List",selectedList);
-            console.log("Item",selectedItem);
-      }
-
-      const onRemove = (selectedList, selectedItem) =>{
-        console.log("List",selectedList);
-        console.log("Item",selectedItem);
-      }
-
       const handleConsChange = (selectedCon)=>{
         setSelectedCons(selectedCon);
+        console.log(selectedCons);
+      }
+
+      const handleSubmit = (e) =>{
+        e.preventDefault();
+        let formData = [];
+        selectedCons.map((data,index)=>{
+            let details = {};
+            details['party_id'] = partyId;
+            details['user_id'] = userId;
+            details['lok_saba_id'] = loksabaId;
+            details['created_by'] = 1;
+            details['legislative_id'] = data['id'];
+            formData.push(details);
+        });
+        const headers = { 'Authorization': bearer };
+        axios.post('http://127.0.0.1:8000/api/user/mapping',formData,{headers})
+        .then((response)=>{
+            if(response.data.status)
+            {
+              setSelectedCons([]);
+            }
+        });
+
       }
 
     useEffect(()=> {
@@ -174,7 +195,7 @@ const Mapping = () =>{
                       <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
                             <Form.Label>Users</Form.Label>
 
-                            <Form.Control name="users" as="select">
+                            <Form.Control name="users" as="select" onChange={handleUserChange}>
                              <option value="">Select Party Users</option>
                               {
                                 renderUsers()
@@ -215,7 +236,12 @@ const Mapping = () =>{
                           </Form.Group>
                       </Col>
                   </Row>
-                <Row>     
+                <Row>  
+                 <div className='mic-single-btn'>
+                <Button type="button" className="text-capitalize btn btn-primary" style={{
+                  width:"100px"
+                }} onClick={handleSubmit}>Submit</Button>  
+               </div>
 
                 </Row>
                                               

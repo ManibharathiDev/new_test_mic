@@ -71,7 +71,7 @@ const Users = () =>{
 }
 
 const renderHeader = () => {
-  let headerElement = ['#', 'name', 'email', 'user code', 'party','status','action']
+  let headerElement = ['#', 'name', 'user code', 'party','status','action']
 
   return headerElement.map((key, index) => {
       return <th key={index}>{key.toUpperCase()}</th>
@@ -83,7 +83,6 @@ const renderBody = () => {
     <tr key={user.id}>
          <td>{index+1}</td>
         <td>{user.name}</td>
-        <td>{user.email}</td>
         <td>{user.user_code}</td>
         <td>{user.user_code}</td>
         <td>{user.user_code}</td>
@@ -92,7 +91,11 @@ const renderBody = () => {
         </Link>
         <Link to="#" onClick={()=>deleteUser(user.id,index)} className="label theme-bg text-c-red  f-12">
         <i className='feather icon-delete'></i> Delete
-        </Link></td>
+        </Link>
+        <Link to="../app/users/mapping" onClick={()=>deleteUser(user.id,index)} className="label theme-bg text-c-red  f-12">
+        <i className='feather icon-delete'></i> Assembly Map
+        </Link>
+        </td>
     </tr>
 ))
 }
