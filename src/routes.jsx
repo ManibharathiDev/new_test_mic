@@ -87,8 +87,13 @@ const routes = [
       },
       {
         exact:'true',
-        path:'/app/lok_constituency',
-        element: lazy(()=>import('./views/loksabha_constituency'))
+        path:'/app/loksaba/create',
+        element: lazy(()=>import('./views/loksabha_constituency/create'))
+      },
+      {
+        exact:'true',
+        path:'/app/loksaba',
+        element: lazy(()=>import('./views/loksabha_constituency/index'))
       },
       {
         exact:'true',

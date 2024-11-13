@@ -48,6 +48,26 @@ const menuItems = {
             ]
         },
         {
+          id: 'loksaba_const',
+          title: 'Loksaba Constituency',
+          type: 'collapse',
+          //url: '/app/users',
+          children:[
+            {
+              id:'view_loksaba',
+              title:'View Loksaba Constituency',
+              type:'item',
+              url: '/app/loksaba',
+            },
+            {
+                id:'create_loksaba',
+                title:'Create New Loksaba Constituency',
+                type:'item',
+                url: '/app/loksaba/create',
+            }
+          ]
+      },
+        {
           id: 'parties',
           title: 'Party',
           type: 'collapse',

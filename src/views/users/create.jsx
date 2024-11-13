@@ -25,6 +25,7 @@ const CreateUser = () =>{
 
   const [data, setData] = useState({
     usertype: "",
+    partytype:"",
     party: "",
     name: "",
     email:"",
@@ -62,11 +63,12 @@ const CreateUser = () =>{
       const userData = {
         name: data.name,
         email: data.email,
-        usertype:data.usertype,
         user_code:data.usercode,
         password:"123456",
         party:data.party,
-        mobile:data.mobile
+        mobile:data.mobile,
+        user_type:data.usertype,
+        party_type:data.partytype
       };
       const headers = { 'Authorization': 'Bearer 25|iDa4bOxWyof9NCJiHoThrMDcLVwIgTi5b3Mk2Ixkeac05fb8' };
       axios.post('http://127.0.0.1:8000/api/auth/register',userData,{headers})
@@ -77,6 +79,7 @@ const CreateUser = () =>{
           {
             setData({
               usertype: "",
+              partytype:"",
               party: "",
               name: "",
               email:"",
@@ -129,6 +132,17 @@ const CreateUser = () =>{
                              <option value="">Select Type</option>
                               <option value="web_admin">Web Admin</option>
                               <option value="party_user">Party User</option>
+                            </Form.Control>
+                          </Form.Group>
+                            </Col>
+
+                            <Col md={6}>
+                          <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
+                            <Form.Label>Party Type</Form.Label>
+                            <Form.Control value={data.partytype} name="partytype" as="select" onChange={handleChange} disabled={isPartyEnabled}>
+                             <option value="">Select Type</option>
+                              <option value="ADMIN">Admin</option>
+                              <option value="AGENT">Agent</option>
                             </Form.Control>
                           </Form.Group>
                             </Col>

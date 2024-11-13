@@ -1,36 +1,178 @@
 import React from 'react';
-import { Row, Col, Card, Table, Tabs, Tab } from 'react-bootstrap';
+import { useState,useEffect } from 'react';
+import axios from "axios";
+import { Row, Col, Card, Table, Tabs, Tab,Button, OverlayTrigger, Tooltip, ButtonToolbar, Dropdown, DropdownButton, SplitButton, CardBody, Form } from 'react-bootstrap';
+import secureLocalStorage from 'react-secure-storage';
 import { Link } from 'react-router-dom';
 const LokSabhaConstituency = () =>{
+  let token = "";
+  let bearer = ""
+  if(secureLocalStorage.getItem("STATUS") != null)
+    {
+        const data = JSON.parse(secureLocalStorage.getItem("STATUS"));
+        if(!data.status)
+        {
+          window.location.replace("/admin/login");
+        }
+        token = data.token;
+        bearer = 'Bearer '+token;
+    }
+    else{
+      window.location.replace("/admin/login");
+    }
+    const [loksaba, setLokSaba] = useState([]);
+    const [district,setDistrict] = useState([]);
+    const [lokId,setLokId] = useState("");
+    const [districtId,setDistrictId] = useState("");
+    const [constituency,setConstituency] = useState([]);
+    const handleLokSabaChange = (e) =>{
+      var lokId = e.target.value;
+      setLokId(lokId);
+      fetchLokConstituency(lokId);
+      }
+
+      const handleDistrictChange = (e) =>{
+          var distId = e.target.value;
+          setDistrictId(distId);
+          }
+    const fetchConstituency = async () =>{
+      try {
+        const headers = { 'Authorization': bearer };
+        const response = await axios.get(`http://127.0.0.1:8000/api/lokconstituency/fetch_all`,{ headers });
+        setLokSaba(response.data.result);
+    } catch (error) {
+        console.log(error);
+    }
+    }
+
+    const fetchDistrict = async () =>{
+      try {
+        const headers = { 'Authorization': bearer };
+        const response = await axios.get(`http://127.0.0.1:8000/api/districts`,{ headers });
+        setDistrict(response.data.result);
+    } catch (error) {
+        console.log(error);
+    }
+    }
+
+    const renderLokSaba = () =>{
+      return loksaba?.map((lok,index) => (
+        <option value={lok.id} key={lok.id}>
+            {lok.name}
+        </option>
+    ))
+    }
+
+    const renderDistrict = () =>{
+      return district?.map((dist,index) => (
+        <option value={dist.id} key={dist.id}>
+            {dist.name}
+        </option>
+    ))
+    }
+
+    const fetchLokConstituency = async (lokId) => {
+      console.log("Bearer ",bearer);
+      try {
+          const headers = { 'Authorization': bearer };
+          const response = await axios.get(`http://127.0.0.1:8000/api/constituency/${districtId}/${lokId}`,{ headers });
+          setConstituency(response.data.result);
+      } catch (error) {
+          console.log(error);
+      }
+    }
+
+    const renderHeader = () => {
+      let headerElement = ['#', 'Loksaba Constituency', 'Constituency', 'District','action']
+    
+      return headerElement.map((key, index) => {
+          return <th key={index}>{key.toUpperCase()}</th>
+      })
+    }
+
+    const deleteLoksaba = (id,idx)=>{
+      const headers = { 'Authorization': bearer };
+      axios.delete(`http://127.0.0.1:8000/api/constituency/delete/${id}`,{ headers })  
+    .then(res => {  
+      setConstituency((data) =>
+        data.filter((item) => item.id !== id));
+    })  
+    }
+
+    const renderBody = () => {
+      return constituency?.map((data,index) => (
+        <tr key={data.id}>
+             <td>{index+1}</td>
+            <td>{data.name}</td>
+            <td>{data.const_name}</td>
+            <td>{data.district_name}</td>
+            <td><Link to="#" onClick={()=>deleteLoksaba(data.id,index)} className="label theme-bg text-c-red  f-12">
+            <i className='feather icon-delete'></i> Delete
+        </Link>
+            </td>
+        </tr>
+    ))
+    }
+
+  useEffect(()=> {
+    fetchConstituency();
+    fetchDistrict();
+    }, []);
     return (
       <React.Fragment>
+         <Card>
+                <Card.Header>
+                  <Card.Title as="h5">Loksaba Constituency</Card.Title>
+                </Card.Header>
+                <Card.Body>
+                <Row>
+                    
+                    <Col md={6}>
+                        <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
+                              <Form.Label>District</Form.Label>
+                              <Form.Control name="district" as="select" value={districtId} onChange={handleDistrictChange}>
+                              <option value="">Select District</option>
+                                {
+                                  renderDistrict()
+                                }
+                              </Form.Control>
+                            </Form.Group>
+                        </Col>
+                        <Col md={6}>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
+                              <Form.Label>Constituency</Form.Label>
+                              <Form.Control name="constituency" as="select" value={lokId} onChange={handleLokSabaChange}>
+                               <option value="">Select Constituency</option>
+                                {
+                                  renderLokSaba()
+                                }
+                              </Form.Control>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+                  </Card.Body>
+                  </Card>
+
+
+
         <Row>
           <Col>
             <Card>
               <Card.Header>
-                <Card.Title as="h5">District Details</Card.Title>
+                <Card.Title as="h5">Loksaba Constituency Details</Card.Title>
               </Card.Header>
               <Card.Body>
-                <Table responsive>
+              <Table responsive>
                   <thead>
                     <tr>
-                      <th>#</th>
-                      <th>Constituency Name</th>
-                      <th>Code</th>
-                      <th>Status</th>
-                      <th>Action</th>
+                      {renderHeader()}
                     </tr>
                   </thead>
                   <tbody>
-                    <tr>
-                      <th scope="row">1</th>
-                      <td>Kanyakumari</td>
-                      <td>KK</td>
-                      <td>ACTIVE</td>
-                      <td><span>Edit</span>&nbsp;<span>Delete</span></td>
-                    </tr>
-                    
-                  </tbody>
+                            {
+                              renderBody()
+                            }
+                        </tbody>
                 </Table>
               </Card.Body>
             </Card>
