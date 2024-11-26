@@ -49,7 +49,8 @@ const Parties = () =>{
 
   const deleteParty = (id,idx) =>{
     const headers = { 'Authorization': bearer };
-    axios.delete(`http://127.0.0.1:8000/api/user/delete/${id}`,{ headers })  
+    let URL = window.API_URL+"party/delete/"+id;
+    axios.delete(URL,{ headers })  
     .then(res => {  
       const data = parties.data.filter(item=>item.id !=id);
       setParties({ ...parties, data: data })
@@ -101,7 +102,8 @@ const renderBody = () => {
   const fetchParties = async () => {
     try {
       const headers = { 'Authorization': bearer };
-        const response = await axios.get(`http://127.0.0.1:8000/api/party?page=${page}`,{ headers });
+      let URL = window.API_URL+"party?page="+page;
+        const response = await axios.get(URL,{ headers });
         setParties(response.data);
     } catch (error) {
         console.log(error);

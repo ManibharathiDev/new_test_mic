@@ -40,7 +40,8 @@ const JWTLogin = () => {
             password:values.password,
             login_from:"WEB"
           };
-            axios.post('http://127.0.0.1:8000/api/auth/login',userData)
+          let URL = window.API_URL+"auth/login";
+            axios.post(URL,userData)
             .then((response)=>{
               console.log(response);
               console.log(response.data.status, response.data.message);

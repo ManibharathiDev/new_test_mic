@@ -22,6 +22,26 @@ const menuItems = {
       icon:'icon-ui',
       children:[
         {
+          id: 'parties',
+          title: 'Party',
+          type: 'collapse',
+          //url: '/app/users',
+          children:[
+            {
+              id:'view_party',
+              title:'View Parties',
+              type:'item',
+              url: '/app/party/view',
+            },
+            {
+                id:'create_parties',
+                title:'Create New Party',
+                type:'item',
+                url: '/app/party/create',
+            }
+          ]
+      },
+        {
             id: 'users',
             title: 'Users',
             type: 'collapse',
@@ -48,45 +68,98 @@ const menuItems = {
             ]
         },
         {
-          id: 'loksaba_const',
-          title: 'Loksaba Constituency',
+          id: 'countries',
+          title: 'Country',
+          type: 'collapse',
+          children:[
+            {
+              id:'view_country',
+              title:'View Country',
+              type:'item',
+              url: '/app/countries',
+            },
+            {
+                id:'create_country',
+                title:'Create New Country',
+                type:'item',
+            }
+          ]
+        },
+        {
+          id: 'states',
+          title: 'States',
+          type: 'collapse',
+          children:[
+            {
+              id:'view_state',
+              title:'View States',
+              type:'item',
+              url: '/app/states',
+            },
+            {
+                id:'create_stte',
+                title:'Create New State',
+                type:'item',
+            }
+          ]
+        },
+        {
+          id: 'districts',
+          title: 'District',
+          type: 'collapse',
+          children:[
+            {
+              id:'view_district',
+              title:'View Districts',
+              type:'item',
+              url: '/app/districts',
+            },
+            {
+                id:'create_district',
+                title:'Create New District',
+                type:'item',
+            }
+          ]
+        },
+        {
+          id: 'constituency',
+          title: 'Constituency',
+          type: 'collapse',
+          children:[
+            {
+              id:'view_constituency',
+              title:'View Constituencies',
+              type:'item',
+              url: '/app/constituency',
+            },
+            {
+                id:'create_constituency',
+                title:'Create New Constituency',
+                type:'item',
+            }
+          ]
+        },
+        {
+          id: 'assembly',
+          title: 'Assembly',
           type: 'collapse',
           //url: '/app/users',
           children:[
             {
               id:'view_loksaba',
-              title:'View Loksaba Constituency',
+              title:'View Assemblies',
               type:'item',
               url: '/app/loksaba',
             },
             {
                 id:'create_loksaba',
-                title:'Create New Loksaba Constituency',
+                title:'Create New Assembly',
                 type:'item',
                 url: '/app/loksaba/create',
             }
           ]
       },
-        {
-          id: 'parties',
-          title: 'Party',
-          type: 'collapse',
-          //url: '/app/users',
-          children:[
-            {
-              id:'view_party',
-              title:'View Parties',
-              type:'item',
-              url: '/app/party/view',
-            },
-            {
-                id:'create_parties',
-                title:'Create New Party',
-                type:'item',
-                url: '/app/party/create',
-            }
-          ]
-      },
+        
       {
         id: 'voters',
         title: 'Voters',
@@ -119,54 +192,7 @@ const menuItems = {
           }
         ]
     },
-        {
-          id: 'countries',
-          title: 'Country',
-          type: 'collapse',
-          // icon: 'icon-ui',
-          // url: '/app/countries',
-          children:[
-            {
-              id:'view_country',
-              title:'View Country',
-              type:'item',
-              url: '/app/countries',
-            },
-            {
-                id:'create_country',
-                title:'Create New Country',
-                type:'item',
-            }
-          ]
-        },
-        {
-          id: 'states',
-          title: 'States',
-          type: 'item',
-          icon: 'icon-ui',
-          url: '/app/states',
-        },
-        {
-          id: 'districts',
-          title: 'District',
-          type: 'item',
-          icon: 'icon-ui',
-          url: '/app/districts',
-        },
-        {
-          id: 'lok_constituency',
-          title: 'Loksabha Constitency',
-          type: 'item',
-          icon: 'icon-ui',
-          url: '/app/lok_constituency',
-        },
-        {
-          id: 'leg_constituency',
-          title: 'Legislative Constitency',
-          type: 'item',
-          icon: 'icon-ui',
-          url: '/app/leg_constituency',
-        },
+       
       ]
     },
     {

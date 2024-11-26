@@ -38,7 +38,8 @@ const LokSabhaConstituency = () =>{
     const fetchConstituency = async () =>{
       try {
         const headers = { 'Authorization': bearer };
-        const response = await axios.get(`http://127.0.0.1:8000/api/lokconstituency/fetch_all`,{ headers });
+        let URL = window.API_URL+"lokconstituency/fetch_all";
+        const response = await axios.get(URL,{ headers });
         setLokSaba(response.data.result);
     } catch (error) {
         console.log(error);
@@ -48,7 +49,8 @@ const LokSabhaConstituency = () =>{
     const fetchDistrict = async () =>{
       try {
         const headers = { 'Authorization': bearer };
-        const response = await axios.get(`http://127.0.0.1:8000/api/districts`,{ headers });
+        let URL = window.API_URL+"districts";
+        const response = await axios.get(URL,{ headers });
         setDistrict(response.data.result);
     } catch (error) {
         console.log(error);
@@ -75,7 +77,8 @@ const LokSabhaConstituency = () =>{
       console.log("Bearer ",bearer);
       try {
           const headers = { 'Authorization': bearer };
-          const response = await axios.get(`http://127.0.0.1:8000/api/constituency/${districtId}/${lokId}`,{ headers });
+          let URL = window.API_URL+"constituency/"+districtId+"/"+lokId;
+          const response = await axios.get(URL,{ headers });
           setConstituency(response.data.result);
       } catch (error) {
           console.log(error);
@@ -92,7 +95,8 @@ const LokSabhaConstituency = () =>{
 
     const deleteLoksaba = (id,idx)=>{
       const headers = { 'Authorization': bearer };
-      axios.delete(`http://127.0.0.1:8000/api/constituency/delete/${id}`,{ headers })  
+      let URL = window.API_URL+"constituency/delete/"+id;
+      axios.delete(URL,{ headers })  
     .then(res => {  
       setConstituency((data) =>
         data.filter((item) => item.id !== id));

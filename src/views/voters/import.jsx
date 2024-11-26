@@ -29,7 +29,8 @@ const VotersImport = () =>{
     const fetchLokSaba = async () =>{
       try {
         const headers = { 'Authorization': bearer };
-        const response = await axios.get(`http://127.0.0.1:8000/api/lokconstituency/fetch_all`,{ headers });
+        let URL = window.API_URL+"lokconstituency/fetch_all";
+        const response = await axios.get(URL,{ headers });
         setLokSaba(response.data.result);
     } catch (error) {
         console.log(error);
@@ -45,7 +46,8 @@ const VotersImport = () =>{
     const fetchConstitency = async (lokId) =>{
       try {
         const headers = { 'Authorization': bearer };
-        const response = await axios.get(`http://127.0.0.1:8000/api/constituency/places/${lokId}`,{ headers });
+        let URL = window.API_URL+"constituency/places/"+lokId;
+        const response = await axios.get(URL,{ headers });
         setConstituency(response.data.result);
     } catch (error) {
         console.log(error);
@@ -115,8 +117,9 @@ const VotersImport = () =>{
         VOTERS:data
       };
       const headers = { 'Authorization': bearer };
+      let URL = window.API_URL+"voters/import/create";
       //const headers = { 'Authorization': 'Bearer 25|iDa4bOxWyof9NCJiHoThrMDcLVwIgTi5b3Mk2Ixkeac05fb8' };
-      axios.post('http://127.0.0.1:8000/api/voters/import/create',userData,{headers})
+      axios.post(URL,userData,{headers})
       .then((response)=>{
         console.log(response);
         console.log(response.data.status, response.data.message);

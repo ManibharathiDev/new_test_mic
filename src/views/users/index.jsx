@@ -48,7 +48,8 @@ const Users = () =>{
 
   const deleteUser = (id,idx) =>{
     const headers = { 'Authorization': bearer };
-    axios.delete(`http://127.0.0.1:8000/api/user/delete/${id}`,{ headers })  
+    let URL = window.API_URL+"user/delete/"+id;
+    axios.delete(URL,{ headers })  
     .then(res => {  
       const data = users.data.filter(item=>item.id !=id);
       setUsers({ ...users, data: data })
@@ -104,7 +105,8 @@ const renderBody = () => {
     console.log("Bearer ",bearer);
     try {
         const headers = { 'Authorization': bearer };
-        const response = await axios.get(`http://127.0.0.1:8000/api/user?page=${page}`,{ headers });
+        let URL = window.API_URL+"user/?page="+page;
+        const response = await axios.get(URL,{ headers });
         setUsers(response.data);
     } catch (error) {
         console.log(error);

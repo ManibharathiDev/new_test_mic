@@ -39,7 +39,8 @@ const CreateLoksaba = () =>{
     const fetchLokSaba = async () =>{
         try {
           const headers = { 'Authorization': bearer };
-          const response = await axios.get(`http://127.0.0.1:8000/api/lokconstituency/fetch_all`,{ headers });
+          let URL = window.API_URL+"lokconstituency/fetch_all";
+          const response = await axios.get(URL,{ headers });
           setLokSaba(response.data.result);
       } catch (error) {
           console.log(error);
@@ -49,7 +50,8 @@ const CreateLoksaba = () =>{
       const fetchDistrict = async () =>{
         try {
           const headers = { 'Authorization': bearer };
-          const response = await axios.get(`http://127.0.0.1:8000/api/districts`,{ headers });
+          let URL = window.API_URL+"districts";
+          const response = await axios.get(URL,{ headers });
           setDistrict(response.data.result);
       } catch (error) {
           console.log(error);
@@ -100,7 +102,8 @@ const CreateLoksaba = () =>{
           "places":constituency
         } 
         const headers = { 'Authorization': bearer };
-      axios.post('http://127.0.0.1:8000/api/constituency/create',newData,{headers})
+        let URL = window.API_URL+"constituency/create";
+      axios.post(URL,newData,{headers})
       .then((response)=>{
         console.log(response);
         console.log(response.data.status, response.data.message);

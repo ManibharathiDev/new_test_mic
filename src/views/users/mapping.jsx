@@ -53,7 +53,8 @@ const Mapping = () =>{
     const fetchLokSaba = async () =>{
         try {
           const headers = { 'Authorization': bearer };
-          const response = await axios.get(`http://127.0.0.1:8000/api/lokconstituency/fetch_all`,{ headers });
+          let URL = window.API_URL+"lokconstituency/fetch_all";
+          const response = await axios.get(URL,{ headers });
           setLokSaba(response.data.result);
       } catch (error) {
           console.log(error);
@@ -63,7 +64,8 @@ const Mapping = () =>{
       const fetchParties = async () => {
         try {
             const headers = { 'Authorization': bearer };
-            const response = await axios.get(`http://127.0.0.1:8000/api/party/fetch`,{ headers });
+            let URL = window.API_URL+"party/fetch";
+            const response = await axios.get(URL,{ headers });
             setParty(response.data.data);
         } catch (error) {
             setParty(null);
@@ -89,7 +91,8 @@ const Mapping = () =>{
       const fetchUsers = async(partyId) =>{
         try {
             const headers = { 'Authorization': bearer };
-            const response = await axios.get(`http://127.0.0.1:8000/api/party/user/${partyId}`,{ headers });
+            let URL = window.API_URL+"party/user/"+partyId;
+            const response = await axios.get(URL,{ headers });
             setUsers(response.data.data);
           } catch (error) {
               console.log(error);
@@ -99,7 +102,8 @@ const Mapping = () =>{
       const fetchConstitency = async (lokId) =>{
         try {
           const headers = { 'Authorization': bearer };
-          const response = await axios.get(`http://127.0.0.1:8000/api/constituency/places/${lokId}`,{ headers });
+          let URL = window.API_URL+"constituency/places/"+lokId;
+          const response = await axios.get(URL,{ headers });
           setConstituency(response.data.result);
         } catch (error) {
             console.log(error);
@@ -156,7 +160,8 @@ const Mapping = () =>{
             formData.push(details);
         });
         const headers = { 'Authorization': bearer };
-        axios.post('http://127.0.0.1:8000/api/user/mapping',formData,{headers})
+        let URL = window.API_URL+"user/mapping";
+        axios.post(URL,formData,{headers})
         .then((response)=>{
             if(response.data.status)
             {

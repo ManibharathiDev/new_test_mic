@@ -22,7 +22,8 @@ const EditUser = () =>{
   const [isPartyEnabled,setIsPartyEnabled] = useState(false);
   const fetchUserById = () => {
     try {
-        axios.get(`http://127.0.0.1:8000/api/user/${id}`)
+      let URL = window.API_URL+"user/"+id;
+        axios.get(URL)
         .then(response =>{
             console.log(response.data);
             setData({
@@ -72,7 +73,8 @@ const EditUser = () =>{
         party:data.party,
         mobile:data.mobile
       };
-      axios.post(`http://127.0.0.1:8000/api/user/update/${id}`,userData)
+      let URL = window.API_URL+"user/update/"+id;
+      axios.post(URL,userData)
       .then((response)=>{
         console.log(response);
         console.log(response.data.status, response.data.message);

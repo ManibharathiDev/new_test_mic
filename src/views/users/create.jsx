@@ -71,7 +71,8 @@ const CreateUser = () =>{
         party_type:data.partytype
       };
       const headers = { 'Authorization': 'Bearer 25|iDa4bOxWyof9NCJiHoThrMDcLVwIgTi5b3Mk2Ixkeac05fb8' };
-      axios.post('http://127.0.0.1:8000/api/auth/register',userData,{headers})
+      let URL = window.API_URL+"auth/register";
+      axios.post(URL,userData,{headers})
       .then((response)=>{
         console.log(response);
         console.log(response.data.status, response.data.message);
@@ -93,7 +94,8 @@ const CreateUser = () =>{
   const fetchParties = async () => {
     try {
         const headers = { 'Authorization': bearer };
-        const response = await axios.get(`http://127.0.0.1:8000/api/party/fetch`,{ headers });
+        let URL = window.API_URL+"party/fetch";
+        const response = await axios.get(URL,{ headers });
         setParty(response.data.data);
     } catch (error) {
         setParty(null);

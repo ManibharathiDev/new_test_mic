@@ -1,8 +1,80 @@
 import React from 'react';
+import { useState,useEffect } from 'react';
+import axios from "axios";
 import { Row, Col, Card, Table, Tabs, Tab,Button, OverlayTrigger, Tooltip, ButtonToolbar, Dropdown, DropdownButton, SplitButton, CardBody, Form } from 'react-bootstrap';
-
+import secureLocalStorage from 'react-secure-storage';
 import { Link } from 'react-router-dom';
 const CreateParties = () =>{
+    let token = "";
+  let bearer = ""
+  if(secureLocalStorage.getItem("STATUS") != null)
+    {
+        const data = JSON.parse(secureLocalStorage.getItem("STATUS"));
+        if(!data.status)
+        {
+          window.location.replace("/admin/login");
+        }
+        token = data.token;
+        bearer = 'Bearer '+token;
+    }
+    else{
+      window.location.replace("/admin/login");
+    }
+    const [data, setData] = useState({
+        name: "",
+        description:"",
+        leader: "",
+        head_quarter: "",
+        year_start:"",
+        email:"",
+        contact_person_1:"",
+        contact_person_2:"",
+        mobile_number:"",
+        landline:""
+      });
+      const handleChange = (e) =>{
+        const value = e.target.value
+        setData({
+          ...data,[e.target.name]:e.target.value
+        })
+    };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const userData = {
+          name: data.name,
+          description: data.description,
+          head_quarter:data.head_quarter,
+          leader:data.leader,
+          mobile:data.mobile_number,
+          landline:data.landline,
+          email:data.email,
+          year_of_start:data.year_start,
+          contact_person_1:data.contact_person_1,
+          contact_person_2:data.contact_person_1
+        };
+        const headers = { 'Authorization': bearer };
+        let URL = window.API_URL+"party/create";
+        axios.post(URL,userData,{headers})
+        .then((response)=>{
+          console.log(response);
+          console.log(response.data.status, response.data.message);
+            if(response.data.status == true)
+            {
+              setData({
+                name: "",
+                description:"",
+                leader: "",
+                head_quarter: "",
+                year_start:"",
+                email:"",
+                contact_person_1:"",
+                contact_person_2:"",
+                mobile_number:"",
+                landline:""
+              });
+            }
+        });
+    }
     return (
       <React.Fragment>
         <Row>
@@ -13,19 +85,19 @@ const CreateParties = () =>{
                
               </Card.Header>
                  <CardBody>
-                    <Form>
+                 <Form onSubmit={handleSubmit}>  
                         <Row>
                             <Col md={6}>
                             <Form.Group className="mb-3" controlId="formNameParty">
                                 <Form.Label>Name of the Party</Form.Label>
-                                <Form.Control type="text" placeholder="Enter the name of the Party" />
+                                <Form.Control type="text" value={data.name} name='name' onChange={handleChange} placeholder="Enter the name of the Party" />
                                 
                             </Form.Group>
                             </Col>
                             <Col md={6}>
                             <Form.Group className="mb-3" controlId="formDescription">
                                 <Form.Label>Description</Form.Label>
-                                <Form.Control type="text" placeholder="Enter the Description" />
+                                <Form.Control type="text" value={data.description} name='description' onChange={handleChange}  placeholder="Enter the Description" />
                                 
                             </Form.Group>
                             </Col>
@@ -35,14 +107,14 @@ const CreateParties = () =>{
                             <Col md={6}>
                             <Form.Group className="mb-3" controlId="formLeder">
                                 <Form.Label>Name of the Leader</Form.Label>
-                                <Form.Control type="text" placeholder="Enter the name of the Leader" />
+                                <Form.Control type="text" value={data.leader} name='leader' onChange={handleChange}  placeholder="Enter the name of the Leader" />
                                 
                             </Form.Group>
                             </Col>
                             <Col md={6}>
                             <Form.Group className="mb-3" controlId="formDescription">
                                 <Form.Label>Head Quarter</Form.Label>
-                                <Form.Control type="text" placeholder="Enter the Head Quarter Name" />
+                                <Form.Control type="text" value={data.head_quarter} name='head_quarter' onChange={handleChange}  placeholder="Enter the Head Quarter Name" />
                                 
                             </Form.Group>
                             </Col>
@@ -52,14 +124,14 @@ const CreateParties = () =>{
                             <Col md={6}>
                             <Form.Group className="mb-3" controlId="formYear">
                                 <Form.Label>Year of Start</Form.Label>
-                                <Form.Control type="number" placeholder="Enter the year of start" />
+                                <Form.Control type="number" name='year_start' value={data.year_start} onChange={handleChange}  placeholder="Enter the year of start" />
                                 
                             </Form.Group>
                             </Col>
                             <Col md={6}>
                             <Form.Group className="mb-3" controlId="formDescription">
                                 <Form.Label>Email</Form.Label>
-                                <Form.Control type="email" placeholder="Enter the Email Address" />
+                                <Form.Control type="email" value={data.email} name='email' onChange={handleChange}  placeholder="Enter the Email Address" />
                                 
                             </Form.Group>
                             </Col>
@@ -69,14 +141,14 @@ const CreateParties = () =>{
                             <Col md={6}>
                             <Form.Group className="mb-3" controlId="formNameParty">
                                 <Form.Label>Contact Person 1</Form.Label>
-                                <Form.Control type="text" placeholder="First Contact Person Name" />
+                                <Form.Control type="text" value={data.contact_person_1} name="contact_person_1" onChange={handleChange}  placeholder="First Contact Person Name" />
                                 
                             </Form.Group>
                             </Col>
                             <Col md={6}>
                             <Form.Group className="mb-3" controlId="formDescription">
-                                <Form.Label>Contact Person 1</Form.Label>
-                                <Form.Control type="text" placeholder="Second Contact Person Name" />
+                                <Form.Label>Contact Person 2</Form.Label>
+                                <Form.Control type="text" value={data.contact_person_2} name="contact_person_2" onChange={handleChange}  placeholder="Second Contact Person Name" />
                                 
                             </Form.Group>
                             </Col>
@@ -86,15 +158,15 @@ const CreateParties = () =>{
                             <Col md={6}>
                             <Form.Group className="mb-3" controlId="formNameParty">
                                 <Form.Label>Mobile Number</Form.Label>
-                                <Form.Control type="text" placeholder="Enter the official Mobile Number" />
+                                <Form.Control type="text" value={data.mobile_number} name="mobile_number" onChange={handleChange}  placeholder="Enter the official Mobile Number" />
                                 
                             </Form.Group>
                             </Col>
                             <Col md={6}>
                             <Form.Group className="mb-3" controlId="formDescription">
                                 <Form.Label>Landline(If available)</Form.Label>
-                                <Form.Control type="text" placeholder="Enter the Landline Number" />
-                                
+                                <Form.Control type="text" value={data.landline} name="landline" onChange={handleChange}  placeholder="Enter the Landline Number" />
+            
                             </Form.Group>
                             </Col>
                         </Row>
