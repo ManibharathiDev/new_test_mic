@@ -4,7 +4,7 @@ import { Row, Col, Card, Table, Tabs, Tab } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useState,useEffect } from 'react';
 import secureLocalStorage from 'react-secure-storage';
-const Parties = () =>{
+const Countries = () =>{
 
   let token = "";
   let bearer = ""
@@ -24,7 +24,7 @@ const Parties = () =>{
       window.location.replace("/admin/login");
     }
 
-  const [parties, setParties] = useState([]);
+  const [countries, setCountries] = useState([]);
   const [page, setPage] = useState(1);
 
   const checkIfTaskIsDone = (done) => (
@@ -42,28 +42,28 @@ const Parties = () =>{
         )
 )
 
-  const fetchNextPrevParties = (link) => {
+  const fetchNextPrev = (link) => {
     const url = new URL(link);
     setPage(url.searchParams.get('page'));
   }
 
-  const deleteParty = (id,idx) =>{
+  const deletes = (id,idx) =>{
     const headers = { 'Authorization': bearer };
-    let URL = window.API_URL+"party/delete/"+id;
+    let URL = window.API_URL+"country/delete/"+id;
     axios.delete(URL,{ headers })  
     .then(res => {  
-      const data = parties.data.filter(item=>item.id !=id);
-      setParties({ ...parties, data: data })
+      const data = countries.data.filter(item=>item.id !=id);
+      setCountries({ ...countries, data: data })
     })  
   }
 
   const renderPaginationLinks = () => {
     return <ul className="pagination">
         {
-            parties.links?.map((link,index) => (
+            countries.links?.map((link,index) => (
                 <li key={index} className="page-item">
                     <a style={{cursor: 'pointer'}} className={`page-link ${link.active ? 'active' : ''}`} 
-                        onClick={() => fetchNextPrevParties(link.url)}>
+                        onClick={() => fetchNextPrev(link.url)}>
                         {link.label.replace('&laquo;', '').replace('&raquo;', '')}
                     </a>
                 </li>
@@ -73,7 +73,7 @@ const Parties = () =>{
 }
 
 const renderHeader = () => {
-  let headerElement = ['#', 'party name', 'leader name', 'head quarter', 'action']
+  let headerElement = ['#', 'country code', 'name']
 
   return headerElement.map((key, index) => {
       return <th key={index}>{key.toUpperCase()}</th>
@@ -81,35 +81,34 @@ const renderHeader = () => {
 }
 
 const renderBody = () => {
-  return parties.data?.map((party,index) => (
-    <tr key={party.id}>
+  return countries.data?.map((country,index) => (
+    <tr key={country.id}>
          <td>{index+1}</td>
-        <td>{party.name}</td>
-        <td>{party.leader}</td>
-        <td>{party.head_quarter}</td>
-        <td><Link to={`../app/party/edit/${party.id}`} className="label theme-bg2 text-white f-12">
+        <td>{country.country_code}</td>
+        <td>{country.name}</td>
+        <td><Link to={`../app/country/edit/${country.id}`} className="label theme-bg2 text-white f-12">
         <i className='feather icon-edit'></i> Edit
         </Link>
-        <Link to="#" onClick={()=>deleteParty(party.id,index)} className="label theme-bg text-c-red  f-12">
+        <Link to="#" onClick={()=>deletes(country.id,index)} className="label theme-bg text-c-red  f-12">
         <i className='feather icon-delete'></i> Delete
         </Link></td>
     </tr>
 ))
 }
 
-  const fetchParties = async () => {
+  const fetchCountries = async () => {
     try {
       const headers = { 'Authorization': bearer };
-      let URL = window.API_URL+"party?page="+page;
+      let URL = window.API_URL+"country?page="+page;
         const response = await axios.get(URL,{ headers });
-        setParties(response.data);
+        setCountries(response.data);
     } catch (error) {
         console.log(error);
     }
 }
 
   useEffect(()=> {
-    fetchParties();
+    fetchCountries();
     }, [page]);
     return (
       <React.Fragment>
@@ -117,7 +116,7 @@ const renderBody = () => {
           <Col>
             <Card>
               <Card.Header>
-                <Card.Title as="h5">Parties</Card.Title>
+                <Card.Title as="h5">Country</Card.Title>
               </Card.Header>
               <Card.Body>
                 <Table responsive>
@@ -130,7 +129,7 @@ const renderBody = () => {
                 </Table>
                 <div className="my-4 d-flex justify-content-between">
                         <div>
-                            Showing {parties.from} to {parties.to} from {parties.total} results.
+                            Showing {countries.from} to {countries.to} from {countries.total} results.
                         </div>
                         <div>
                             {renderPaginationLinks()}
@@ -145,4 +144,4 @@ const renderBody = () => {
       </React.Fragment>
     );
   };
-export default Parties;
+export default Countries;

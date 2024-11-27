@@ -72,8 +72,18 @@ const routes = [
       },
       {
         exact:'true',
-        path:'/app/countries',
-        element: lazy(()=>import('./views/countries'))
+        path:'/app/country/view',
+        element: lazy(()=>import('./views/country'))
+      },
+      {
+        exact:'true',
+        path:'/app/country/create',
+        element: lazy(()=>import('./views/country/create'))
+      },
+      {
+        exact:'true',
+        path:'/app/country/edit/:id',
+        element: lazy(()=>import('./views/country/edit'))
       },
       {
         exact:'true',
@@ -109,6 +119,11 @@ const routes = [
         exact:'true',
         path:'/app/party/create',
         element: lazy(()=>import('./views/party/create'))
+      },
+      {
+        exact:'true',
+        path:'/app/party/edit/:id',
+        element: lazy(()=>import('./views/party/edit'))
       },
       {
         exact:'true',

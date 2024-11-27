@@ -76,12 +76,13 @@ const menuItems = {
               id:'view_country',
               title:'View Country',
               type:'item',
-              url: '/app/countries',
+              url: '/app/country/view',
             },
             {
                 id:'create_country',
                 title:'Create New Country',
                 type:'item',
+                url: '/app/country/create',
             }
           ]
         },
