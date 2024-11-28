@@ -87,13 +87,33 @@ const routes = [
       },
       {
         exact:'true',
-        path:'/app/states',
+        path:'/app/state/view',
         element: lazy(()=>import('./views/states'))
       },
       {
         exact:'true',
-        path:'/app/districts',
+        path:'/app/state/create',
+        element: lazy(()=>import('./views/states/create'))
+      },
+      {
+        exact:'true',
+        path:'/app/state/edit/:id',
+        element: lazy(()=>import('./views/states/edit'))
+      },
+      {
+        exact:'true',
+        path:'/app/district/view',
         element: lazy(()=>import('./views/districts'))
+      },
+      {
+        exact:'true',
+        path:'/app/district/create',
+        element: lazy(()=>import('./views/districts/create'))
+      },
+      {
+        exact:'true',
+        path:'/app/district/edit/:id',
+        element: lazy(()=>import('./views/districts/edit'))
       },
       {
         exact:'true',

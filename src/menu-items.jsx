@@ -95,12 +95,13 @@ const menuItems = {
               id:'view_state',
               title:'View States',
               type:'item',
-              url: '/app/states',
+              url: '/app/state/view',
             },
             {
                 id:'create_stte',
                 title:'Create New State',
                 type:'item',
+                url: '/app/state/create',
             }
           ]
         },
@@ -113,12 +114,13 @@ const menuItems = {
               id:'view_district',
               title:'View Districts',
               type:'item',
-              url: '/app/districts',
+              url: '/app/district/view',
             },
             {
                 id:'create_district',
                 title:'Create New District',
                 type:'item',
+                url: '/app/district/create',
             }
           ]
         },
