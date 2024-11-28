@@ -133,7 +133,7 @@ const menuItems = {
               id:'view_constituency',
               title:'View Constituencies',
               type:'item',
-              url: '/app/constituency',
+              url: '/app/constituency/view',
             },
             {
                 id:'create_constituency',
@@ -152,13 +152,13 @@ const menuItems = {
               id:'view_loksaba',
               title:'View Assemblies',
               type:'item',
-              url: '/app/loksaba',
+              url: '/app/assembly/view',
             },
             {
                 id:'create_loksaba',
                 title:'Create New Assembly',
                 type:'item',
-                url: '/app/loksaba/create',
+                url: '/app/assembly/create',
             }
           ]
       },
