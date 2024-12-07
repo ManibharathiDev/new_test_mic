@@ -118,12 +118,18 @@ const routes = [
       {
         exact:'true',
         path:'/app/assembly/create',
-        element: lazy(()=>import('./views/assembly/create'))
+        // element: lazy(()=>import('./views/assembly/create'))
+        element: lazy(()=>import('./views/assembly/create_assembly'))
       },
       {
         exact:'true',
         path:'/app/assembly/view',
-        element: lazy(()=>import('./views/assembly/index'))
+        element: lazy(()=>import('./views/assembly/'))
+      },
+      {
+        exact:'true',
+        path:'/app/assembly/edit/:id',
+        element: lazy(()=>import('./views/assembly/edit'))
       },
       {
         exact:'true',
@@ -144,6 +150,21 @@ const routes = [
         exact:'true',
         path:'/app/party/edit/:id',
         element: lazy(()=>import('./views/party/edit'))
+      },
+      {
+        exact:'true',
+        path:'/app/wards/view',
+        element: lazy(()=>import('./views/wards/index'))
+      },
+      {
+        exact:'true',
+        path:'/app/wards/create',
+        element: lazy(()=>import('./views/wards/create'))
+      },
+      {
+        exact:'true',
+        path:'/app/wards/edit/:id',
+        element: lazy(()=>import('./views/wards/edit'))
       },
       {
         exact:'true',

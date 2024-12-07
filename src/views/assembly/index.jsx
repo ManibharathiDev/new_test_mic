@@ -24,17 +24,25 @@ const LokSabhaConstituency = () =>{
     const [district,setDistrict] = useState([]);
     const [lokId,setLokId] = useState("");
     const [districtId,setDistrictId] = useState("");
-    const [constituency,setConstituency] = useState([]);
+    const [assembly,setAssembly] = useState([]);
     const handleLokSabaChange = (e) =>{
       var lokId = e.target.value;
       setLokId(lokId);
-      fetchLokConstituency(lokId);
+      fetchAssembly(lokId);
       }
 
-      const handleDistrictChange = (e) =>{
-          var distId = e.target.value;
-          setDistrictId(distId);
-          }
+      const fetchAssembly = async(lokId) =>{
+       
+        try {
+            const headers = { 'Authorization': bearer };
+            let URL = window.API_URL+"assembly/list?lok_saba_id="+lokId;
+            const response = await axios.get(URL,{ headers });
+            setAssembly(response.data.data);
+        } catch (error) {
+            console.log(error);
+        }
+      }
+
     const fetchConstituency = async () =>{
       try {
         const headers = { 'Authorization': bearer };
@@ -46,16 +54,6 @@ const LokSabhaConstituency = () =>{
     }
     }
 
-    const fetchDistrict = async () =>{
-      try {
-        const headers = { 'Authorization': bearer };
-        let URL = window.API_URL+"districts";
-        const response = await axios.get(URL,{ headers });
-        setDistrict(response.data.result);
-    } catch (error) {
-        console.log(error);
-    }
-    }
 
     const renderLokSaba = () =>{
       return loksaba?.map((lok,index) => (
@@ -86,7 +84,7 @@ const LokSabhaConstituency = () =>{
     }
 
     const renderHeader = () => {
-      let headerElement = ['#', 'Loksaba Constituency', 'Constituency', 'District','action']
+      let headerElement = ['#', 'Assembly','Constituency', 'First Booth','Last Booth','action']
     
       return headerElement.map((key, index) => {
           return <th key={index}>{key.toUpperCase()}</th>
@@ -104,13 +102,18 @@ const LokSabhaConstituency = () =>{
     }
 
     const renderBody = () => {
-      return constituency?.map((data,index) => (
+      return assembly?.map((data,index) => (
         <tr key={data.id}>
              <td>{index+1}</td>
             <td>{data.name}</td>
-            <td>{data.const_name}</td>
-            <td>{data.district_name}</td>
-            <td><Link to="#" onClick={()=>deleteLoksaba(data.id,index)} className="label theme-bg text-c-red  f-12">
+            <td>{data.lok_saba_id}</td>
+            <td>{data.first_booth}</td>
+            <td>{data.last_booth}</td>
+            <td>
+            <Link to={`../app/assembly/edit/${data.id}`} className="label theme-bg2 text-white f-12">
+            <i className='feather icon-edit'></i> Edit
+            </Link>
+              <Link to="#" onClick={()=>deleteLoksaba(data.id,index)} className="label theme-bg text-c-red  f-12">
             <i className='feather icon-delete'></i> Delete
         </Link>
             </td>
@@ -120,18 +123,18 @@ const LokSabhaConstituency = () =>{
 
   useEffect(()=> {
     fetchConstituency();
-    fetchDistrict();
+    //fetchDistrict();
     }, []);
     return (
       <React.Fragment>
          <Card>
                 <Card.Header>
-                  <Card.Title as="h5">Loksaba Constituency</Card.Title>
+                  <Card.Title as="h5">Assembly</Card.Title>
                 </Card.Header>
                 <Card.Body>
                 <Row>
                     
-                    <Col md={6}>
+                    {/* <Col md={6}>
                         <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
                               <Form.Label>District</Form.Label>
                               <Form.Control name="district" as="select" value={districtId} onChange={handleDistrictChange}>
@@ -141,7 +144,7 @@ const LokSabhaConstituency = () =>{
                                 }
                               </Form.Control>
                             </Form.Group>
-                        </Col>
+                        </Col> */}
                         <Col md={6}>
                             <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
                               <Form.Label>Constituency</Form.Label>
@@ -163,7 +166,7 @@ const LokSabhaConstituency = () =>{
           <Col>
             <Card>
               <Card.Header>
-                <Card.Title as="h5">Loksaba Constituency Details</Card.Title>
+                <Card.Title as="h5">Assembly Details</Card.Title>
               </Card.Header>
               <Card.Body>
               <Table responsive>

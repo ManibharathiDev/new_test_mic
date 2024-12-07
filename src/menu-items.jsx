@@ -162,6 +162,26 @@ const menuItems = {
             }
           ]
       },
+      {
+        id: 'wards',
+        title: 'Wards',
+        type: 'collapse',
+        //url: '/app/users',
+        children:[
+          {
+            id:'view_wards',
+            title:'View Wards',
+            type:'item',
+            url: '/app/wards/view',
+          },
+          {
+              id:'create_ward',
+              title:'Create New Ward',
+              type:'item',
+              url: '/app/wards/create',
+          }
+        ]
+    },
         
       {
         id: 'voters',

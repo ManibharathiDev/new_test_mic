@@ -139,6 +139,7 @@ const CreateLoksaba = () =>{
                 <Card.Header>
                   <Card.Title as="h5">Create Loksaba Constituency</Card.Title>
                 </Card.Header>
+                <Form onSubmit={handleSubmit}>  
                 <Card.Body>
                   <Row>
                     
@@ -204,6 +205,7 @@ const CreateLoksaba = () =>{
                 </Row>
                                               
                 </Card.Body>
+                </Form>
               </Card>
             </Col>
           </Row>
