@@ -19,8 +19,21 @@ const dashSalesData = [
 ];
 
 const DashDefault = () => {
-
- 
+let token = "";
+  let bearer = ""
+ if(secureLocalStorage.getItem("STATUS") != null)
+    {
+        const data = JSON.parse(secureLocalStorage.getItem("STATUS"));
+        if(!data.status)
+        {
+          window.location.replace("/admin");
+        }
+        token = data.token;
+        bearer = 'Bearer '+token;
+    }
+    else{
+      window.location.replace("/admin/login");
+    }
 };
 
 export default DashDefault;
