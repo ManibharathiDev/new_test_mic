@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState,useEffect } from 'react';
 import axios from "axios";
-import { Row, Col, Card, Table, Tabs, Tab,Button, OverlayTrigger, Tooltip, ButtonToolbar, Dropdown, DropdownButton, SplitButton, CardBody, Form } from 'react-bootstrap';
+import { Row, Col, Card, Table,  Form } from 'react-bootstrap';
 import secureLocalStorage from 'react-secure-storage';
 import { Link } from 'react-router-dom';
 const Wards = () =>{
@@ -26,21 +26,23 @@ const Wards = () =>{
     const [districtId,setDistrictId] = useState("");
     const [assembly,setAssembly] = useState([]);
     const [wards,setWards] = useState([]);
+    const [page, setPage] = useState(1);
  
     const handleChange = (e) =>{
         const value = e.target.value
         setDistrictId(value);
-        fetchWards(value);
+        setPage(1);
+        //fetchWards(value);
     }
 
-    const fetchWards = async(distId) =>{
+    const fetchWards = async(districtId,page) =>{
        
         try {
             const headers = { 'Authorization': bearer };
-            let URL = window.API_URL+"ward/getall?district_id="+distId;
+            let URL = window.API_URL+"ward/getall?district_id="+districtId+"&page="+page+"&show=50";
             const response = await axios.get(URL,{ headers });
-            console.log("Result",response.data.data);
-            setWards(response.data.data);
+            console.log("Result",response.data);
+            setWards(response.data);
         } catch (error) {
             console.log(error);
         }
@@ -76,8 +78,32 @@ const Wards = () =>{
       })
     }
 
+    
+
+    const renderPaginationLinks = () => {
+      return <ul className="pagination">
+          {
+              wards.links?.map((link,index) => (
+                  <li key={index} className="page-item">
+                      <a style={{cursor: 'pointer'}} className={`page-link ${link.active ? 'active' : ''}`} 
+                          onClick={() => fetchNextPrev(link.url)}>
+                          {link.label.replace('&laquo;', '').replace('&raquo;', '')}
+                      </a>
+                  </li>
+              ))
+          }
+      </ul>
+  }
+
+  const fetchNextPrev = (link) => {
+    console.log("URL",link);
+    const url = new URL(link);
+    console.log("Parse "+url)
+    setPage(url.searchParams.get('page'));
+  }
+
     const renderBody = () => {
-        return wards?.map((ward,index) => (
+        return wards.data?.map((ward,index) => (
           <tr key={ward.id}>
                <td>{index+1}</td>
               <td>{ward.name}</td>
@@ -97,7 +123,12 @@ const Wards = () =>{
 
   useEffect(()=> {
     fetchDistrict();
-    }, []);
+    if(districtId)
+    {
+      fetchWards(districtId,page);
+    }
+
+    }, [districtId,page]);
     return (
       <React.Fragment>
          <Card>
@@ -137,6 +168,14 @@ const Wards = () =>{
                             }
                         </tbody>
                 </Table>
+                <div className="my-4 d-flex justify-content-between">
+                        <div>
+                            Showing {wards.from} to {wards.to} from {wards.total} results.
+                        </div>
+                        <div>
+                             {renderPaginationLinks()}
+                        </div>
+                    </div>
                 </Card.Body>
                 </Card>
               
