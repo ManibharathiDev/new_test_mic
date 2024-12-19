@@ -138,6 +138,16 @@ const routes = [
       },
       {
         exact:'true',
+        path:'/app/constituency/create',
+        element: lazy(()=>import('./views/constituency/create'))
+      },
+      {
+        exact:'true',
+        path:'/app/constituency/edit/:id',
+        element: lazy(()=>import('./views/constituency/edit'))
+      },
+      {
+        exact:'true',
         path:'/app/party/view',
         element: lazy(()=>import('./views/party'))
       },
@@ -180,6 +190,53 @@ const routes = [
         exact:'true',
         path:'/app/voters/import',
         element: lazy(()=>import('./views/voters'))
+      },
+      {
+        exact:'true',
+        path:'/app/community/create',
+        element: lazy(()=>import('./views/community_caste/create_community'))
+      },
+      {
+        exact:'true',
+        path:'/app/community/view',
+        element: lazy(()=>import('./views/community_caste/view_community'))
+      },
+      {
+        exact:'true',
+        path:'/app/community/edit/{id}',
+        element: lazy(()=>import('./views/community_caste/edit_community'))
+      },
+
+      {
+        exact:'true',
+        path:'/app/caste/create',
+        element: lazy(()=>import('./views/community_caste/create_caste'))
+      },
+      {
+        exact:'true',
+        path:'/app/caste/view',
+        element: lazy(()=>import('./views/community_caste/view_caste'))
+      },
+      {
+        exact:'true',
+        path:'/app/caste/edit/{id}',
+        element: lazy(()=>import('./views/community_caste/edit_caste'))
+      },
+
+      {
+        exact:'true',
+        path:'/app/subcaste/create',
+        element: lazy(()=>import('./views/community_caste/create_subcaste'))
+      },
+      {
+        exact:'true',
+        path:'/app/subcaste/view',
+        element: lazy(()=>import('./views/community_caste/view_subcaste'))
+      },
+      {
+        exact:'true',
+        path:'/app/subcaste/edit/{id}',
+        element: lazy(()=>import('./views/community_caste/edit_subcaste'))
       },
       /**OLD */
       {

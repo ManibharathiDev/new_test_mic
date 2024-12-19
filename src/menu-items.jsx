@@ -125,20 +125,21 @@ const menuItems = {
           ]
         },
         {
-          id: 'constituency',
-          title: 'Constituency',
+          id: 'parliament',
+          title: 'Parliaments',
           type: 'collapse',
           children:[
             {
-              id:'view_constituency',
-              title:'View Constituencies',
+              id:'view_parliament',
+              title:'View Parliaments',
               type:'item',
               url: '/app/constituency/view',
             },
             {
-                id:'create_constituency',
-                title:'Create New Constituency',
+                id:'create_parliament',
+                title:'Create New Parliament',
                 type:'item',
+                url:'/app/constituency/create'
             }
           ]
         },
@@ -182,6 +183,52 @@ const menuItems = {
           }
         ]
     },
+    {
+      id: 'community_caste',
+      title: 'Community & Caste',
+      type: 'collapse',
+      //url: '/app/users',
+      children:[
+        {
+          id:'view_community',
+          title:'View Community',
+          type:'item',
+          url: '/app/community/view',
+          
+        },
+        {
+            id:'create_community',
+            title:'Create New Community',
+            type:'item',
+            url: '/app/community/create',
+            
+        },
+        {
+          id:'view_caste',
+          title:'View Caste',
+          type:'item',
+          url: '/app/caste/view',
+        },
+        {
+            id:'create_caste',
+            title:'Create New Caste',
+            type:'item',
+            url: '/app/caste/create',
+        },
+        {
+          id:'view_subcaste',
+          title:'View Subcaste',
+          type:'item',
+          url: '/app/subcaste/view',
+        },
+        {
+            id:'create_subcaste',
+            title:'Create New Subcaste',
+            type:'item',
+            url: '/app/subcaste/create',
+        }
+      ]
+  },
         
       {
         id: 'voters',

@@ -62,7 +62,7 @@ const Wards = () =>{
             const headers = { 'Authorization': bearer };
             let URL = window.API_URL+"districts";
             const response = await axios.get(URL,{ headers });
-            setDistrict(response.data.result);
+            setDistrict(response.data.data);
         } catch (error) {
             console.log(error);
         }
@@ -102,6 +102,16 @@ const Wards = () =>{
     setPage(url.searchParams.get('page'));
   }
 
+  const deletes = (id,idx) =>{
+    const headers = { 'Authorization': bearer };
+    let URL = window.API_URL+"ward/delete/"+id;
+    axios.delete(URL,{ headers })  
+    .then(res => {  
+      const data = wards.data.filter(item=>item.id !=id);
+      setWards({ ...wards, data: data })
+    })  
+  }
+
     const renderBody = () => {
         return wards.data?.map((ward,index) => (
           <tr key={ward.id}>
@@ -114,7 +124,9 @@ const Wards = () =>{
               <Link to={`../app/wards/edit/${ward.id}`} className="label theme-bg2 text-white f-12">
               <i className='feather icon-edit'></i> Edit
               </Link>
-               
+               <Link to="#" onClick={()=>deletes(ward.id,index)} className="label theme-bg text-c-red  f-12">
+                       <i className='feather icon-delete'></i> Delete
+                       </Link>
               </td>
           </tr>
       ))

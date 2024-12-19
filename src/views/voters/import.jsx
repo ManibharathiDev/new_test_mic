@@ -70,7 +70,7 @@ const VotersImport = () =>{
     }
 
     const renderHeader = () => {
-      let headerElement = ['#', 'EPIC Number', 'Name', 'Booth Number', 'Line Number','Gender','Age','Father Name','Husband Name']
+      let headerElement = ['#', 'EPIC Number', 'Name', 'Booth Number', 'Booth Address', 'Line Number','Gender','Age','Father Name','Husband Name']
     
       return headerElement.map((key, index) => {
           return <th key={index}>{key.toUpperCase()}</th>
@@ -84,6 +84,7 @@ const VotersImport = () =>{
             <td>{user.EPIC_NUMBER}</td>
             <td>{user.VOTER_NAME}</td>
             <td>{user.BOOTH_NUMBER}</td>
+            <td>{user.BOOTH_ADDRESS}</td>
             <td>{user.LINE_NUMBER}</td>
             <td>{user.GENDER}</td>
             <td>{user.AGE}</td>

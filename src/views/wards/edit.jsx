@@ -74,7 +74,7 @@ const EditWards = () => {
               const headers = { 'Authorization': bearer };
               let URL = window.API_URL+"districts";
               const response = await axios.get(URL,{ headers });
-              setDistrict(response.data.result);
+              setDistrict(response.data.data);
           } catch (error) {
               console.log(error);
           }

@@ -85,7 +85,7 @@ const renderBody = () => {
     <tr key={con.id}>
          <td>{index+1}</td>
         <td>{con.name}</td>
-        <td><Link to={`../app/country/edit/${con.id}`} className="label theme-bg2 text-white f-12">
+        <td><Link to={`../app/constituency/edit/${con.id}`} className="label theme-bg2 text-white f-12">
         <i className='feather icon-edit'></i> Edit
         </Link>
         <Link to="#" onClick={()=>deletes(con.id,index)} className="label theme-bg text-c-red  f-12">
