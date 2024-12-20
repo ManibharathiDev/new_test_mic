@@ -193,6 +193,21 @@ const routes = [
       },
       {
         exact:'true',
+        path:'/app/religion/create',
+        element: lazy(()=>import('./views/community_caste/create_religion'))
+      },
+      {
+        exact:'true',
+        path:'/app/religion/view',
+        element: lazy(()=>import('./views/community_caste/view_religion'))
+      },
+      {
+        exact:'true',
+        path:'/app/religion/edit/:id',
+        element: lazy(()=>import('./views/community_caste/edit_religion'))
+      },
+      {
+        exact:'true',
         path:'/app/community/create',
         element: lazy(()=>import('./views/community_caste/create_community'))
       },
@@ -203,7 +218,7 @@ const routes = [
       },
       {
         exact:'true',
-        path:'/app/community/edit/{id}',
+        path:'/app/community/edit/:id',
         element: lazy(()=>import('./views/community_caste/edit_community'))
       },
 
@@ -219,7 +234,7 @@ const routes = [
       },
       {
         exact:'true',
-        path:'/app/caste/edit/{id}',
+        path:'/app/caste/edit/:id',
         element: lazy(()=>import('./views/community_caste/edit_caste'))
       },
 
@@ -235,7 +250,7 @@ const routes = [
       },
       {
         exact:'true',
-        path:'/app/subcaste/edit/{id}',
+        path:'/app/subcaste/edit/:id',
         element: lazy(()=>import('./views/community_caste/edit_subcaste'))
       },
       /**OLD */

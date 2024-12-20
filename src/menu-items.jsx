@@ -190,6 +190,20 @@ const menuItems = {
       //url: '/app/users',
       children:[
         {
+          id:'view_religion',
+          title:'View Religion',
+          type:'item',
+          url: '/app/religion/view',
+          
+        },
+        {
+            id:'create_religion',
+            title:'Create New Religion',
+            type:'item',
+            url: '/app/religion/create',
+            
+        },
+        {
           id:'view_community',
           title:'View Community',
           type:'item',

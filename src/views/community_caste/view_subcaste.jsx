@@ -77,13 +77,11 @@ const ViewSubcaste = () =>{
     }, [page]);
     return (
       <React.Fragment>
-
-
         <Row>
           <Col>
             <Card>
               <Card.Header>
-                <Card.Title as="h5">Community Details</Card.Title>
+                <Card.Title as="h5">Subcaste Details</Card.Title>
               </Card.Header>
               <Card.Body>
               <Table responsive>
@@ -100,8 +98,6 @@ const ViewSubcaste = () =>{
                 </Table>
               </Card.Body>
             </Card>
-            
-            
           </Col>
         </Row>
       </React.Fragment>

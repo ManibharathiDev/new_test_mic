@@ -3,7 +3,7 @@ import { useState,useEffect } from 'react';
 import axios from "axios";
 import { Row, Col, Card, Table, Tabs, Tab,Button, OverlayTrigger, Tooltip, ButtonToolbar, Dropdown, DropdownButton, SplitButton, CardBody, Form } from 'react-bootstrap';
 import secureLocalStorage from 'react-secure-storage';
-const CreateCommunity = () =>{
+const CreateReligion = () =>{
     let token = "";
   let bearer = ""
   if(secureLocalStorage.getItem("STATUS") != null)
@@ -35,7 +35,7 @@ const CreateCommunity = () =>{
           status:"Active"
         };
         const headers = { 'Authorization': bearer };
-        let URL = window.API_URL+"community/create";
+        let URL = window.API_URL+"religion/create";
         axios.post(URL,userData,{headers})
         .then((response)=>{
           console.log(response);
@@ -57,7 +57,7 @@ const CreateCommunity = () =>{
           <Col>
             <Card>
               <Card.Header>
-                <Card.Title as="h5">Create New Community</Card.Title>
+                <Card.Title as="h5">Create New Religion</Card.Title>
                
               </Card.Header>
                  <CardBody>
@@ -65,7 +65,7 @@ const CreateCommunity = () =>{
                         <Row>
                             <Col md={6}>
                             <Form.Group className="mb-3" controlId="formNameParty">
-                                <Form.Label>Name of the Community</Form.Label>
+                                <Form.Label>Name of the Religion</Form.Label>
                                 <Form.Control type="text" value={data.name} name='name' onChange={handleChange} placeholder="Enter the name of the Party" />
                                 
                             </Form.Group>
@@ -91,4 +91,4 @@ const CreateCommunity = () =>{
       </React.Fragment>
     );
 }
-export default CreateCommunity;
+export default CreateReligion;

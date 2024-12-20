@@ -4,7 +4,7 @@ import axios from "axios";
 import { Row, Col, Card, Table, Tabs, Tab,Button, OverlayTrigger, Tooltip, ButtonToolbar, Dropdown, DropdownButton, SplitButton, CardBody, Form } from 'react-bootstrap';
 import secureLocalStorage from 'react-secure-storage';
 import { Link,useParams } from 'react-router-dom';
-const EditCommunity = () => {
+const EditReligion = () => {
     let token = "";
   let bearer = ""
     if(secureLocalStorage.getItem("STATUS") != null)
@@ -21,7 +21,7 @@ const EditCommunity = () => {
           window.location.replace("/admin/login");
         }
         const {id} = useParams();
-        const [community,setCommunity] = useState([]);
+        const [religion,setReligion] = useState([]);
         
         const [data, setData] = useState({
             name: "",
@@ -35,10 +35,10 @@ const EditCommunity = () => {
             })
         };
 
-        const fetchCommunityById = () => {
+        const fetchReligionById = () => {
           try {
               const headers = { 'Authorization': bearer };
-            let URL = window.API_URL+"community/show/"+id;
+            let URL = window.API_URL+"religion/show/"+id;
               axios.get(URL,{headers})
               .then(response =>{
                   console.log(response.data);
@@ -60,7 +60,7 @@ const EditCommunity = () => {
                         status: "Active"
                     };
                     const headers = { 'Authorization': bearer };
-                    let URL = window.API_URL+"community/update/"+id;
+                    let URL = window.API_URL+"religion/update/"+id;
                     axios.put(URL,userData,{headers})
                     .then((response)=>{
                       console.log(response);
@@ -71,7 +71,7 @@ const EditCommunity = () => {
                             name: "",
                             status:""
                           });
-                          window.location.replace("/admin/app/community/view/");
+                          window.location.replace("/admin/app/religion/view/");
                         }
                         else{
                             alert("Error");
@@ -80,7 +80,7 @@ const EditCommunity = () => {
                 } 
           
           useEffect(()=> {
-            fetchCommunityById();
+            fetchReligionById();
             }, [id]);
 
         return(
@@ -90,7 +90,7 @@ const EditCommunity = () => {
             <Col>
               <Card>
                 <Card.Header>
-                  <Card.Title as="h5">Edit Community</Card.Title>
+                  <Card.Title as="h5">Edit Religion</Card.Title>
                 </Card.Header>
                 <Form >  
                 <Card.Body>
@@ -121,4 +121,4 @@ const EditCommunity = () => {
         );    
 
 }
-export default EditCommunity;
+export default EditReligion;
