@@ -58,8 +58,8 @@ const ViewSubcaste = () =>{
       return subCaste.data?.map((data,index) => (
         <tr key={data.id}>
              <td>{index+1}</td>
-            <td>{data.community_id}</td>
-            <td>{data.caste_id}</td>
+            <td>{data.community.name}</td>
+            <td>{data.caste.name}</td>
             <td>{data.name}</td>
                     <td>
             <Link to={`../app/subcaste/edit/${data.id}`} className="label theme-bg2 text-white f-12">

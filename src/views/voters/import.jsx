@@ -24,6 +24,8 @@ const VotersImport = () =>{
     const [loksaba, setLokSaba] = useState([]);
     const [constituency,setConstituency] = useState([]);
     const [data,setData] = useState(null);
+    const [parliament,setParliament] = useState("");
+    const [assembly,setAssembly] = useState("");
 
 
     const fetchLokSaba = async () =>{
@@ -31,7 +33,7 @@ const VotersImport = () =>{
         const headers = { 'Authorization': bearer };
         let URL = window.API_URL+"lokconstituency/fetch_all";
         const response = await axios.get(URL,{ headers });
-        setLokSaba(response.data.result);
+        setLokSaba(response.data.data);
     } catch (error) {
         console.log(error);
     }
@@ -40,7 +42,13 @@ const VotersImport = () =>{
     const handleLokSabaChange = (e) =>{
         var lokId = e.target.value;
         console.log("LOK Id",lokId);
+        setParliament(lokId);
         fetchConstitency(lokId)
+    }
+
+    const handleAssemblyChange = (e) =>{
+      var assemblyId = e.target.value;
+      setAssembly(assemblyId);
     }
 
     const fetchConstitency = async (lokId) =>{
@@ -48,7 +56,7 @@ const VotersImport = () =>{
         const headers = { 'Authorization': bearer };
         let URL = window.API_URL+"constituency/places/"+lokId;
         const response = await axios.get(URL,{ headers });
-        setConstituency(response.data.result);
+        setConstituency(response.data.data);
     } catch (error) {
         console.log(error);
     }
@@ -113,8 +121,8 @@ const VotersImport = () =>{
     const handleSubmit = (e) => {
       e.preventDefault();
       const userData = {
-        LOK_SHABA_ID: 1,
-        LEGISLATIVE_ID: 6,
+        LOK_SHABA_ID: parliament,
+        LEGISLATIVE_ID: assembly,
         VOTERS:data
       };
       const headers = { 'Authorization': bearer };
@@ -160,7 +168,7 @@ const VotersImport = () =>{
                       <Col md={6}>
                       <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
                             <Form.Label>Legislative Assembly</Form.Label>
-                            <Form.Control name="legislative" as="select">
+                            <Form.Control name="legislative" as="select" onChange={handleAssemblyChange}>
                              <option value="">Select Legislative Assembly</option>
                               {
                                 renderConstituency()

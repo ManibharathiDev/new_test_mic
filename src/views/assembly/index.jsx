@@ -48,7 +48,7 @@ const LokSabhaConstituency = () =>{
         const headers = { 'Authorization': bearer };
         let URL = window.API_URL+"lokconstituency/fetch_all";
         const response = await axios.get(URL,{ headers });
-        setLokSaba(response.data.result);
+        setLokSaba(response.data.data);
     } catch (error) {
         console.log(error);
     }
@@ -63,26 +63,7 @@ const LokSabhaConstituency = () =>{
     ))
     }
 
-    const renderDistrict = () =>{
-      return district?.map((dist,index) => (
-        <option value={dist.id} key={dist.id}>
-            {dist.name}
-        </option>
-    ))
-    }
-
-    const fetchLokConstituency = async (lokId) => {
-      console.log("Bearer ",bearer);
-      try {
-          const headers = { 'Authorization': bearer };
-          let URL = window.API_URL+"constituency/"+districtId+"/"+lokId;
-          const response = await axios.get(URL,{ headers });
-          setConstituency(response.data.result);
-      } catch (error) {
-          console.log(error);
-      }
-    }
-
+  
     const renderHeader = () => {
       let headerElement = ['#', 'Assembly','Constituency', 'First Booth','Last Booth','action']
     
@@ -91,15 +72,17 @@ const LokSabhaConstituency = () =>{
       })
     }
 
-    const deleteLoksaba = (id,idx)=>{
+    const deletes = (id,idx)=>{
       const headers = { 'Authorization': bearer };
-      let URL = window.API_URL+"constituency/delete/"+id;
+      let URL = window.API_URL+"assembly/delete/"+id;
       axios.delete(URL,{ headers })  
     .then(res => {  
-      setConstituency((data) =>
-        data.filter((item) => item.id !== id));
+      const data = assembly.filter(item=>item.id !=id);
+     // setAssembly({ ...assembly, data: data })
+      setAssembly(data)
     })  
     }
+
 
     const renderBody = () => {
       return assembly?.map((data,index) => (
@@ -113,7 +96,7 @@ const LokSabhaConstituency = () =>{
             <Link to={`../app/assembly/edit/${data.id}`} className="label theme-bg2 text-white f-12">
             <i className='feather icon-edit'></i> Edit
             </Link>
-              <Link to="#" onClick={()=>deleteLoksaba(data.id,index)} className="label theme-bg text-c-red  f-12">
+              <Link to="#" onClick={()=>deletes(data.id,index)} className="label theme-bg text-c-red  f-12">
             <i className='feather icon-delete'></i> Delete
         </Link>
             </td>

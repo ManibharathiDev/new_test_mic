@@ -62,7 +62,7 @@ const CreateAssembly = () =>{
           const headers = { 'Authorization': bearer };
           let URL = window.API_URL+"lokconstituency/fetch_all";
           const response = await axios.get(URL,{ headers });
-          setLokSaba(response.data.result);
+          setLokSaba(response.data.data);
       } catch (error) {
           console.log(error);
       }

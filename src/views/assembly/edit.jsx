@@ -128,7 +128,7 @@ const EditAssembly = () => {
                             <Col md={6}>
                             <Form.Group className="mb-3" controlId="formNameParty">
                                 <Form.Label>Constituency</Form.Label>
-                                <Form.Control type="text" value={data.lok_saba_id} name='lok_saba_id' onChange={handleChange} placeholder="Enter the Constituency Name" disabled />
+                                <Form.Control type="text" value={data.lok_saba_id} name='lok_saba_id' onChange={handleChange} placeholder="Enter the Constituency Name"/>
                                 
                             </Form.Group>
                             </Col>
@@ -146,7 +146,7 @@ const EditAssembly = () => {
                             <Col md={6}>
                             <Form.Group className="mb-3" controlId="formNameParty">
                                 <Form.Label>Last Booth</Form.Label>
-                                <Form.Control type="text" value={data.last_booth} name='last_booth' onChange={handleChange} placeholder="Enter the Constituency Name" disabled />
+                                <Form.Control type="text" value={data.last_booth} name='last_booth' onChange={handleChange} placeholder="Enter the Constituency Name" />
                                 
                             </Form.Group>
                             </Col>
