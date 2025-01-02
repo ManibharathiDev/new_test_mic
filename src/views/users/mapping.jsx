@@ -30,6 +30,9 @@ const Mapping = () =>{
     const [partyId,setPartyId] = useState("");
     const [loksabaId,setLokSabaId] = useState("");
     const [userId,setUserId] = useState("");
+    const [amount,setAmount] = useState("");
+    const [from_date,setFromDate] = useState("");
+    const [to_date,setToDate] = useState("");
     const [users,setUsers] = useState([]);
     const [data,setData] = useState(null);
     const [selectedCons,setSelectedCons] = useState([]);
@@ -147,25 +150,51 @@ const Mapping = () =>{
         console.log(selectedCons);
       }
 
+      const handleFromDate = (e) =>{
+        setFromDate(e.target.value);
+      }
+
+      const handleAmount = (e) =>{
+        setAmount(e.target.value);
+      }
+
+      const handleToDate = (e) => {
+        setToDate(e.target.value);
+      }
+
       const handleSubmit = (e) =>{
         e.preventDefault();
         let formData = [];
+        let data = {};
         selectedCons.map((data,index)=>{
             let details = {};
             details['party_id'] = partyId;
             details['user_id'] = userId;
-            details['lok_saba_id'] = loksabaId;
+            details['parliament_id'] = loksabaId;
             details['created_by'] = 1;
-            details['legislative_id'] = data['id'];
+            details['status'] = "Active";
+            details['amount'] = amount;
+            details['from_date'] = from_date;
+            details['to_date'] = to_date;
+            details['assembly_id'] = data['id'];
             formData.push(details);
         });
+        data['data'] = formData;
+        
+
         const headers = { 'Authorization': bearer };
-        let URL = window.API_URL+"user/mapping";
-        axios.post(URL,formData,{headers})
+        let URL = window.API_URL+"userassembly/bulkinsert";
+        axios.post(URL,data,{headers})
         .then((response)=>{
             if(response.data.status)
             {
               setSelectedCons([]);
+              setConstituency("")
+              setLokSabaId("");
+              setFromDate("");
+              setToDate("");
+              setPartyId("");
+              setUserId("");
             }
         });
 
@@ -184,6 +213,16 @@ const Mapping = () =>{
                   <Card.Title as="h5">Assembly Mapping</Card.Title>
                 </Card.Header>
                 <Card.Body>
+                  <Row>
+                    <Col md={6}>
+                          <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
+                            <Form.Label>Amount</Form.Label>
+                            <Form.Control type="text" name="amount" value={amount} onChange={handleAmount} placeholder="Enter the amount" />
+                          </Form.Group>
+                      </Col>
+                      
+
+                  </Row>
                 <Row>
                       <Col md={6}>
                           <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
@@ -223,7 +262,7 @@ const Mapping = () =>{
                       </Col>
                       <Col md={6}>
                       <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
-                            <Form.Label>Legislative Assembly</Form.Label>
+                            <Form.Label>Assembly</Form.Label>
                             <Select
                                 options={constituency}
                                 value={selectedCons}
@@ -232,15 +271,27 @@ const Mapping = () =>{
                                 getOptionLabel={option=>`${option.name}`}
                                 getOptionValue={option=>`${option.id}`}
                             />
-                            {/* <Form.Control name="legislative" as="select">
-                             <option value="">Select Legislative Assembly</option>
-                              {
-                                renderConstituency()
-                              }
-                            </Form.Control> */}
+                          
                           </Form.Group>
                       </Col>
                   </Row>
+
+                  <Row>
+                      <Col md={6}>
+                          <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
+                            <Form.Label>From Date</Form.Label>
+                            <Form.Control type="date" name="from_date" value={from_date} onChange={handleFromDate} placeholder="Enter the from date" />
+                          </Form.Group>
+                      </Col>
+                      <Col md={6}>
+                      <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
+                            <Form.Label>To Date</Form.Label>
+                            <Form.Control type="date" name="to_date" value={to_date} onChange={handleToDate} placeholder="Enter the to date" />
+                          
+                          </Form.Group>
+                      </Col>
+                  </Row>              
+
                 <Row>  
                  <div className='mic-single-btn'>
                 <Button type="button" className="text-capitalize btn btn-primary" style={{
