@@ -176,6 +176,50 @@ const routes = [
         path:'/app/wards/edit/:id',
         element: lazy(()=>import('./views/wards/edit'))
       },
+
+      {
+        exact:'true',
+        path:'/app/panjayath/view',
+        element: lazy(()=>import('./views/panjyath/index'))
+      },
+      {
+        exact:'true',
+        path:'/app/panjayath/create',
+        element: lazy(()=>import('./views/panjyath/create'))
+      },
+      {
+        exact:'true',
+        path:'/app/panjayath/edit/:id',
+        element: lazy(()=>import('./views/panjyath/edit'))
+      },
+
+      {
+        exact:'true',
+        path:'/app/village/view',
+        element: lazy(()=>import('./views/village/index'))
+      },
+      {
+        exact:'true',
+        path:'/app/village/create',
+        element: lazy(()=>import('./views/village/create'))
+      },
+      {
+        exact:'true',
+        path:'/app/village/edit/:id',
+        element: lazy(()=>import('./views/village/edit'))
+      },
+      {
+        exact:'true',
+        path:'/app/village/import',
+        element: lazy(()=>import('./views/village/imports'))
+      },
+
+      {
+        exact:'true',
+        path:'/app/voters/create',
+        element: lazy(()=>import('./views/voters/create'))
+      },
+
       {
         exact:'true',
         path:'/app/voters/import',
@@ -186,11 +230,11 @@ const routes = [
         path:'/app/voters/export',
         element: lazy(()=>import('./views/voters/export'))
       },
-      {
-        exact:'true',
-        path:'/app/voters/import',
-        element: lazy(()=>import('./views/voters'))
-      },
+      // {
+      //   exact:'true',
+      //   path:'/app/voters/import',
+      //   element: lazy(()=>import('./views/voters'))
+      // },
       {
         exact:'true',
         path:'/app/religion/create',

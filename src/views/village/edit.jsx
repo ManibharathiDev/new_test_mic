@@ -4,7 +4,7 @@ import axios from "axios";
 import { Row, Col, Card, Table, Tabs, Tab,Button, OverlayTrigger, Tooltip, ButtonToolbar, Dropdown, DropdownButton, SplitButton, CardBody, Form } from 'react-bootstrap';
 import secureLocalStorage from 'react-secure-storage';
 import { Link,useParams } from 'react-router-dom';
-const EditVillage = () => {
+const EditPanjayaths = () => {
     let token = "";
   let bearer = ""
     if(secureLocalStorage.getItem("STATUS") != null)
@@ -159,4 +159,4 @@ const EditVillage = () => {
         );    
 
 }
-export default EditVillage;
+export default EditPanjayaths;

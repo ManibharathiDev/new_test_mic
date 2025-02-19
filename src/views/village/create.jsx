@@ -3,8 +3,8 @@ import { useState,useEffect } from 'react';
 import axios from "axios";
 import { Row, Col, Card, Table, Tabs, Tab,Button, OverlayTrigger, Tooltip, ButtonToolbar, Dropdown, DropdownButton, SplitButton, CardBody, Form } from 'react-bootstrap';
 import secureLocalStorage from 'react-secure-storage';
-import { Link,useParams } from 'react-router-dom';
-const EditVillage = () => {
+import MultipleValueTextInput from 'react-multivalue-text-input';
+const CreatePanjayath = () => {
     let token = "";
   let bearer = ""
     if(secureLocalStorage.getItem("STATUS") != null)
@@ -20,41 +20,30 @@ const EditVillage = () => {
         else{
           window.location.replace("/admin/login");
         }
-        const {id} = useParams();
         const [district,setDistrict] = useState([]);
         const [districtId,setDistrictId] = useState("");
-        
+        const [panjayath,setPanjayath] = useState([]);
+        const [panjayathId,setPanjyathId] = useState("");
+       
           const [data, setData] = useState({
             district_id: "",
-            name:"",
+            panjayath_id:"",
+            name:""
           });  
 
           const handleChange = (e) =>{
             const value = e.target.value
             setData({
               ...data,[e.target.name]:e.target.value
-            })
+            });
+
+            if(e.target.name == "district_id"){
+                setDistrictId(value);
+            }
+
         };
 
-        const fetchPanjyathById = () => {
-          try {
-              const headers = { 'Authorization': bearer };
-            let URL = window.API_URL+"panjayath/show/"+id;
-              axios.get(URL,{headers})
-              .then(response =>{
-                  console.log(response.data);
-                  setData({
-                     district_id: response.data.data[0].district_data.id,
-                      name:response.data.data[0].name,
-                      });
-              })
-              .catch(err => {
-                  console.log(err)
-              })
-          } catch (error) {
-              console.log(error);
-          }
-        }
+        
 
         const fetchDistrict = async () =>{
             try {
@@ -67,9 +56,28 @@ const EditVillage = () => {
           }
           }
 
+       const fetchPanjyath = async (id) =>{
+          try {
+            const headers = { 'Authorization': bearer };
+            let URL = window.API_URL+"panjayath/lists?pagination=&district_id="+id
+            const response = await axios.get(URL,{ headers });
+            setPanjayath(response.data.data);
+        } catch (error) {
+            console.log(error);
+        }
+       }   
+
 
             const renderDistrict = () =>{
                 return district?.map((dist,index) => (
+                  <option value={dist.id} key={dist.id}>
+                      {dist.name}
+                  </option>
+              ))
+              }
+
+              const renderPanjayath = () =>{
+                return panjayath?.map((dist,index) => (
                   <option value={dist.id} key={dist.id}>
                       {dist.name}
                   </option>
@@ -81,11 +89,12 @@ const EditVillage = () => {
                     e.preventDefault();
                     const userData = {
                         district_id: data.district_id,
-                        name:data.name
+                        panjayath_id:data.panjayath_id,
+                        name:data.name,
                     };
                     const headers = { 'Authorization': bearer };
-                    let URL = window.API_URL+"panjayath/update/"+id;
-                    axios.put(URL,userData,{headers})
+                    let URL = window.API_URL+"village/create";
+                    axios.post(URL,userData,{headers})
                     .then((response)=>{
                       console.log(response);
                       console.log(response.data.status, response.data.message);
@@ -93,9 +102,9 @@ const EditVillage = () => {
                         {
                           setData({
                             district_id: "",
-                            name: "",
+                            panjayath_id:"",
+                            name:""
                           });
-                          window.location.replace("/admin/app/panjayath/view/");
                         }
                         else{
                             alert("Error");
@@ -105,8 +114,9 @@ const EditVillage = () => {
           
           useEffect(()=> {
             fetchDistrict();
-            fetchPanjyathById();
-            }, []);
+            if(districtId)
+              fetchPanjyath(districtId);
+            }, [districtId]);
 
         return(
             <>
@@ -115,7 +125,7 @@ const EditVillage = () => {
             <Col>
               <Card>
                 <Card.Header>
-                  <Card.Title as="h5">Edit Ward</Card.Title>
+                  <Card.Title as="h5">Create New Grama Panjayath</Card.Title>
                 </Card.Header>
                 <Form >  
                 <Card.Body>
@@ -133,19 +143,33 @@ const EditVillage = () => {
                             </Form.Control>
                           </Form.Group>
                       </Col>
-                      
 
-                    <Col md={6}>
-                        <Form.Group className="mb-3" controlId="formYear">
-                                <Form.Label>Name</Form.Label>
-                                <Form.Control type="text" name='name' value={data.name} onChange={handleChange} placeholder="Enter the name of the Panjayath" />
-                                
-                            </Form.Group>
-                      </Col>
-                </Row>
+                      <Col md={6}>
+                      <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
+                            <Form.Label>Panjayath</Form.Label>
+                            <Form.Control name="panjayath_id" as="select" value={data.panjayath_id} onChange={handleChange}>
+                            <option value="">Select Panjayath</option>
+                              {
+                                renderPanjayath()
+                              }
+                            </Form.Control>
+                          </Form.Group>
+                      </Col>  
+                      </Row>
+                      <Row>
+                      <Col md={6}>
+                      <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
+                            <Form.Label>Grama Panjayath Name</Form.Label>
+                            <Form.Control type="text" name="name" value={data.name} onChange={handleChange}>
+                          
+                            </Form.Control>
+                          </Form.Group>
+                      </Col>  
+                      </Row>
+                   
                 <Row>
                 <Form.Group className="d-inline-flex mr-5 mx-3 align-items-center">
-                <Button type="button" className="text-capitalize btn btn-primary" onClick={handleSubmit}>Update</Button>
+                <Button type="button" className="text-capitalize btn btn-primary" onClick={handleSubmit}>Upload</Button>
                     </Form.Group>
                 </Row>
                  </Form>                             
@@ -159,4 +183,4 @@ const EditVillage = () => {
         );    
 
 }
-export default EditVillage;
+export default CreatePanjayath;

@@ -184,6 +184,52 @@ const menuItems = {
         ]
     },
     {
+      id: 'panjyath',
+      title: 'Panjayath',
+      type: 'collapse',
+      //url: '/app/users',
+      children:[
+        {
+          id:'view_panjayath',
+          title:'View Panyajaths',
+          type:'item',
+          url: '/app/panjayath/view',
+        },
+        {
+            id:'create_panjayath',
+            title:'Create New panjyath',
+            type:'item',
+            url: '/app/panjayath/create',
+        }
+      ]
+  },
+  {
+    id: 'village',
+    title: 'Grama Panjayath',
+    type: 'collapse',
+    //url: '/app/users',
+    children:[
+      {
+        id:'view_village',
+        title:'View Grama Panjayath',
+        type:'item',
+        url: '/app/village/view',
+      },
+      {
+          id:'create_village',
+          title:'Create New Grama Panjayath',
+          type:'item',
+          url: '/app/village/create',
+      },
+      {
+        id:'create_villagse',
+        title:'Import Grama Panjayath',
+        type:'item',
+        url: '/app/village/import',
+    },
+    ]
+},
+    {
       id: 'community_caste',
       title: 'Community & Caste',
       type: 'collapse',
@@ -258,7 +304,7 @@ const menuItems = {
           },
           {
               id:'create_voters',
-              title:'Create New Voters',
+              title:'Create Voters',
               type:'item',
               url: '/app/voters/create',
           },
