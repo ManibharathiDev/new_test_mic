@@ -41,8 +41,8 @@ const EditCountry = () =>{
             .then(response =>{
                 console.log(response.data);
                 setData({
-                    country_code: response.data.data.country_code,
-                    name:response.data.data.name
+                    country_code: response.data.data[0].country_code,
+                    name:response.data.data[0].name
                     });
             })
             .catch(err => {

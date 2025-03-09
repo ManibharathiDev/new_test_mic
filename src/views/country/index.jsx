@@ -99,7 +99,7 @@ const renderBody = () => {
   const fetchCountries = async () => {
     try {
       const headers = { 'Authorization': bearer };
-      let URL = window.API_URL+"country?page="+page;
+      let URL = window.API_URL+"country/get?page="+page;
         const response = await axios.get(URL,{ headers });
         setCountries(response.data);
     } catch (error) {

@@ -25,7 +25,7 @@ const EditDistrict = () =>{
         country_id: "",
         name:"",
       });
-      const [country,setCountry] = useState([]);  
+      const [state,setState] = useState([]);  
       const handleChange = (e) =>{
         const value = e.target.value
         setData({
@@ -33,15 +33,15 @@ const EditDistrict = () =>{
         })
     };
 
-    const fetchStateById = () => {
+    const fetchDistrictById = () => {
         try {
             const headers = { 'Authorization': bearer };
-          let URL = window.API_URL+"state/"+id;
+          let URL = window.API_URL+"districts/"+id;
             axios.get(URL,{headers})
             .then(response =>{
                 console.log(response.data);
                 setData({
-                    country_id: response.data.data.country_id,
+                    state_id: response.data.data.country_id,
                     name:response.data.data.name
                     });
             })
@@ -53,25 +53,6 @@ const EditDistrict = () =>{
         }
       }
 
-    const fetchCountry = async () =>{
-        try {
-          const headers = { 'Authorization': bearer };
-          let URL = window.API_URL+"country/get";
-          const response = await axios.get(URL,{ headers });
-          setCountry(response.data.result);
-      } catch (error) {
-          console.log(error);
-      }
-      }
-
-      const renderCountry = () =>{
-        return country?.map((cont,index) => (
-          <option value={cont.id} key={cont.id}>
-              {cont.name}
-          </option>
-      ))
-      }
-
     const handleSubmit = (e) => {
         e.preventDefault();
         const userData = {
@@ -79,7 +60,7 @@ const EditDistrict = () =>{
           name: data.name,
         };
         const headers = { 'Authorization': bearer };
-        let URL = window.API_URL+"state/"+id;
+        let URL = window.API_URL+"districts/"+id;
         axios.put(URL,userData,{headers})
         .then((response)=>{
           console.log(response);
@@ -87,10 +68,10 @@ const EditDistrict = () =>{
             if(response.data.status == true)
             {
               setData({
-                country_id: "",
+                state_id: "",
                 name:""
               });
-              window.location.replace("/admin/app/state/view/");
+              window.location.replace("/admin/app/district/view/");
             }
             else{
                 console.log("Transaction error");
@@ -98,8 +79,8 @@ const EditDistrict = () =>{
         });
     }
     useEffect(()=> {
-        fetchStateById();
-        fetchCountry();
+        fetchDistrictById();
+        fetchStates();
         }, []);
     return (
       <React.Fragment>
@@ -113,18 +94,19 @@ const EditDistrict = () =>{
                  <CardBody>
                  <Form onSubmit={handleSubmit}>  
                         <Row>
-                            <Col md={6}>
-                            <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
-                            <Form.Label>Country</Form.Label>
-                            <Form.Control name="country_id" as="select" value={data.country_id} onChange={handleChange}>
-                            <option value="">Select Country</option>
-                              {
-                                renderCountry()
-                              }
-                            </Form.Control>
-                          </Form.Group>
-                            </Col>
-                            <Col md={6}>
+                            
+                            <Col md={4}>
+                                                        <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
+                                                        <Form.Label>State</Form.Label>
+                                                        <Form.Control name="state_id" as="select" value={data.state_id} onChange={handleChange}>
+                                                        <option value="">Select State</option>
+                                                          {
+                                                            renderState()
+                                                          }
+                                                        </Form.Control>
+                                                      </Form.Group>
+                                                        </Col>
+                            <Col md={4}>
                             <Form.Group className="mb-3" controlId="formDescription">
                                 <Form.Label>State</Form.Label>
                                 <Form.Control type="text" value={data.name} name='name' onChange={handleChange}  placeholder="Enter the State Name" />

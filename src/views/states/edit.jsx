@@ -41,8 +41,8 @@ const EditState = () =>{
             .then(response =>{
                 console.log(response.data);
                 setData({
-                    country_id: response.data.data.country_id,
-                    name:response.data.data.name
+                    country_id: response.data.data[0].country_data.id,
+                    name:response.data.data[0].name
                     });
             })
             .catch(err => {
@@ -58,7 +58,7 @@ const EditState = () =>{
           const headers = { 'Authorization': bearer };
           let URL = window.API_URL+"country/get";
           const response = await axios.get(URL,{ headers });
-          setCountry(response.data.result);
+          setCountry(response.data.data);
       } catch (error) {
           console.log(error);
       }

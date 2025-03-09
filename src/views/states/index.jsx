@@ -52,8 +52,8 @@ const States = () =>{
     let URL = window.API_URL+"state/delete/"+id;
     axios.delete(URL,{ headers })  
     .then(res => {  
-      const data = countries.data.filter(item=>item.id !=id);
-      setStates({ ...countries, data: data })
+      const data = states.data.filter(item=>item.id !=id);
+      setStates({ ...states, data: data })
     })  
   }
 
@@ -85,7 +85,7 @@ const renderBody = () => {
     <tr key={state.id}>
          <td>{index+1}</td>
         <td>{state.name}</td>
-        <td>{state.country_id}</td>
+        <td>{state.country_data.name}</td>
         <td><Link to={`../app/state/edit/${state.id}`} className="label theme-bg2 text-white f-12">
         <i className='feather icon-edit'></i> Edit
         </Link>

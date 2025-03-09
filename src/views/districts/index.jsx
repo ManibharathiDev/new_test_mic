@@ -49,11 +49,11 @@ const Districts = () =>{
 
   const deletes = (id,idx) =>{
     const headers = { 'Authorization': bearer };
-    let URL = window.API_URL+"state/delete/"+id;
+    let URL = window.API_URL+"districts/delete/"+id;
     axios.delete(URL,{ headers })  
     .then(res => {  
-      const data = countries.data.filter(item=>item.id !=id);
-      setStates({ ...countries, data: data })
+      const data = states.data.filter(item=>item.id !=id);
+      setStates({ ...states, data: data })
     })  
   }
 
@@ -73,7 +73,7 @@ const Districts = () =>{
 }
 
 const renderHeader = () => {
-  let headerElement = ['#', 'name', 'country']
+  let headerElement = ['#', 'name', 'state']
 
   return headerElement.map((key, index) => {
       return <th key={index}>{key.toUpperCase()}</th>
@@ -85,10 +85,11 @@ const renderBody = () => {
     <tr key={state.id}>
          <td>{index+1}</td>
         <td>{state.name}</td>
-        <td>{state.country_id}</td>
-        <td><Link to={`../app/state/edit/${state.id}`} className="label theme-bg2 text-white f-12">
+        <td>{state.state_data.name}</td>
+        <td>
+          {/* <Link to={`../app/district/edit/${state.id}`} className="label theme-bg2 text-white f-12">
         <i className='feather icon-edit'></i> Edit
-        </Link>
+        </Link> */}
         <Link to="#" onClick={()=>deletes(state.id,index)} className="label theme-bg text-c-red  f-12">
         <i className='feather icon-delete'></i> Delete
         </Link></td>
@@ -96,10 +97,10 @@ const renderBody = () => {
 ))
 }
 
-  const fetchStates = async () => {
+  const fetchDistricts = async () => {
     try {
       const headers = { 'Authorization': bearer };
-      let URL = window.API_URL+"state?page="+page;
+      let URL = window.API_URL+"districts?page="+page;
         const response = await axios.get(URL,{ headers });
         setStates(response.data);
     } catch (error) {
@@ -108,7 +109,7 @@ const renderBody = () => {
 }
 
   useEffect(()=> {
-    fetchStates();
+    fetchDistricts();
     }, [page]);
     return (
       <React.Fragment>
@@ -116,7 +117,7 @@ const renderBody = () => {
           <Col>
             <Card>
               <Card.Header>
-                <Card.Title as="h5">Country</Card.Title>
+                <Card.Title as="h5">Districts</Card.Title>
               </Card.Header>
               <Card.Body>
                 <Table responsive>
