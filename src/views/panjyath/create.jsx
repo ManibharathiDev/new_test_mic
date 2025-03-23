@@ -92,7 +92,7 @@ const CreatePanjayath = () => {
             <Col>
               <Card>
                 <Card.Header>
-                  <Card.Title as="h5">Create New Panjayath</Card.Title>
+                  <Card.Title as="h5">Create New Panjayath Union</Card.Title>
                 </Card.Header>
                 <Form >  
                 <Card.Body>

@@ -141,7 +141,7 @@ const Panjayaths = () =>{
       <React.Fragment>
          <Card>
                 <Card.Header>
-                  <Card.Title as="h5">Panjayath Details</Card.Title>
+                  <Card.Title as="h5">Panjayath Union Details</Card.Title>
                 </Card.Header>
                 <Card.Body>
                 <Row>

@@ -216,6 +216,12 @@ const routes = [
 
       {
         exact:'true',
+        path:'/app/voters/view',
+        element: lazy(()=>import('./views/voters/index'))
+      },
+
+      {
+        exact:'true',
         path:'/app/voters/create',
         element: lazy(()=>import('./views/voters/create'))
       },

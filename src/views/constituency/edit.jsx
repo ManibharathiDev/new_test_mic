@@ -88,7 +88,7 @@ const EditConstituency = () =>{
           const headers = { 'Authorization': bearer };
           let URL = window.API_URL+"country/get";
           const response = await axios.get(URL,{ headers });
-          setCountry(response.data.result);
+          setCountry(response.data.data);
         } catch (error) {
             console.log(error);
         }

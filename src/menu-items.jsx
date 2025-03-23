@@ -185,19 +185,19 @@ const menuItems = {
     },
     {
       id: 'panjyath',
-      title: 'Panjayath',
+      title: 'Panjayath Union',
       type: 'collapse',
       //url: '/app/users',
       children:[
         {
           id:'view_panjayath',
-          title:'View Panyajaths',
+          title:'View Panyajath Unions',
           type:'item',
           url: '/app/panjayath/view',
         },
         {
             id:'create_panjayath',
-            title:'Create New panjyath',
+            title:'Create New panjayath Union',
             type:'item',
             url: '/app/panjayath/create',
         }
@@ -314,12 +314,12 @@ const menuItems = {
             type:'item',
             url: '/app/voters/import',
           },
-          {
-            id:'export_voters',
-            title:'Export Voters',
-            type:'item',
-            url: '/app/voters/export',
-          }
+          // {
+          //   id:'export_voters',
+          //   title:'Export Voters',
+          //   type:'item',
+          //   url: '/app/voters/export',
+          // }
         ]
     },
        

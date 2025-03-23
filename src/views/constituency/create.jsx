@@ -53,7 +53,7 @@ const CreateConstituency = () =>{
           name: data.name,
         };
         const headers = { 'Authorization': bearer };
-        let URL = window.API_URL+"lokconstituency";
+        let URL = window.API_URL+"lokconstituency/create";
         axios.post(URL,userData,{headers})
         .then((response)=>{
           console.log(response);
@@ -87,7 +87,7 @@ const CreateConstituency = () =>{
           const headers = { 'Authorization': bearer };
           let URL = window.API_URL+"country/get";
           const response = await axios.get(URL,{ headers });
-          setCountry(response.data.result);
+          setCountry(response.data.data);
         } catch (error) {
             console.log(error);
         }

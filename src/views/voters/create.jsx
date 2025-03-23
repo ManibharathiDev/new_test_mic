@@ -97,19 +97,18 @@ const CreateVoters = () =>{
 
       const handleSubmit = (e) => {
         e.preventDefault();
-        const assemblyData = {
-            lok_saba_id: lokId,
-            data: rows,
+        const userData = {
+          LOK_SHABA_ID: lokId,
+          LEGISLATIVE_ID: assemblyId,
+          VOTERS:rows
         };
         const headers = { 'Authorization': bearer };
-        let URL = window.API_URL+"assembly/bulkupload";
-        axios.post(URL,assemblyData,{headers})
+      let URL = window.API_URL+"voters/import/create";
+        axios.post(URL,userData,{headers})
         .then((response)=>{
-          console.log(response);
-          console.log(response.data.status, response.data.message);
             if(response.data.status == true)
             {
-                alert("Inserted");
+                alert("Voters Created Successfully");
                 handleReset();
             }
             else{

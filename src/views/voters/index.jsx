@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from "axios";
 import { useEffect } from 'react';
-import { Row, Col, Card, Table, Tabs, Tab,Button, OverlayTrigger, Tooltip, ButtonToolbar, Dropdown, DropdownButton, SplitButton } from 'react-bootstrap';
+import { Row, Col, Card, Table, Tabs, Tab,Button, OverlayTrigger, Tooltip, ButtonToolbar, Dropdown, DropdownButton, SplitButton,Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import secureLocalStorage from 'react-secure-storage';
 const Voters = () =>{
@@ -25,6 +25,11 @@ const Voters = () =>{
   
     const [users, setUsers] = useState([]);
     const [page, setPage] = useState(1);
+
+    const [loksaba, setLokSaba] = useState([]);
+    const [lokId,setLokId] = useState("");
+    const [assembly,setAssembly] = useState([]);
+    const [assemblyId,setAssemblyId] = useState("");
   
     const checkIfTaskIsDone = (done) => (
       done ? 
@@ -45,74 +50,60 @@ const Voters = () =>{
       const url = new URL(link);
       setPage(url.searchParams.get('page'));
     }
-  
-    const deleteUser = (id,idx) =>{
-      const headers = { 'Authorization': bearer };
-      let URL = window.API_URL+"user/delete/"+id;
-      axios.delete(URL,{ headers })  
-      .then(res => {  
-        const data = users.data.filter(item=>item.id !=id);
-        setUsers({ ...users, data: data })
-      })  
-    }
-  
-    const renderPaginationLinks = () => {
-      return <ul className="pagination">
-          {
-              users.links?.map((link,index) => (
-                  <li key={index} className="page-item">
-                      <a style={{cursor: 'pointer'}} className={`page-link ${link.active ? 'active' : ''}`} 
-                          onClick={() => fetchNextPrevTasks(link.url)}>
-                          {link.label.replace('&laquo;', '').replace('&raquo;', '')}
-                      </a>
-                  </li>
-              ))
-          }
-      </ul>
-  }
-  
-  const renderHeader = () => {
-    let headerElement = ['#', 'name', 'email', 'user code', 'party','status','action']
-  
-    return headerElement.map((key, index) => {
-        return <th key={index}>{key.toUpperCase()}</th>
-    })
-  }
-  
-  const renderBody = () => {
-    return users.data?.map((user,index) => (
-      <tr key={user.id}>
-           <td>{index+1}</td>
-          <td>{user.name}</td>
-          <td>{user.email}</td>
-          <td>{user.user_code}</td>
-          <td>{user.user_code}</td>
-          <td>{user.user_code}</td>
-          <td><Link to="#" className="label theme-bg2 text-white f-12">
-          <i className='feather icon-edit'></i> Edit
-          </Link>
-          <Link to="#" onClick={()=>deleteUser(user.id,index)} className="label theme-bg text-c-red  f-12">
-          <i className='feather icon-delete'></i> Delete
-          </Link></td>
-      </tr>
-  ))
-  }
-  
-    const fetchUsers = async () => {
-      console.log("Bearer ",bearer);
-      try {
+      const fetchConstituency = async () =>{
+        try {
           const headers = { 'Authorization': bearer };
-          let URL = window.API_URL+"user/?page="+page;
+          let URL = window.API_URL+"lokconstituency/fetch_all";
           const response = await axios.get(URL,{ headers });
-          setUsers(response.data);
+          setLokSaba(response.data.data);
       } catch (error) {
           console.log(error);
       }
-  }
+      }
+
+      const handleLokSabaChange = (e) =>{
+        var lokId = e.target.value;
+        setLokId(lokId);
+        //fetchAssembly(lokId);
+        }
+
+        const handleAssemblyChange = (e) =>{
+          var assemblyId = e.target.value; 
+          setAssemblyId(assemblyId);
+        }
+
+        const renderLokSaba = () =>{
+          return loksaba?.map((lok,index) => (
+            <option value={lok.id} key={lok.id}>
+                {lok.name}
+            </option>
+        ))
+        }
+
+        const renderAssembly = () =>{
+          return assembly?.map((assembly,index) => (
+            <option value={assembly.id} key={assembly.id}>
+                {assembly.name}
+            </option>
+        ))
+        }
+
+        const fetchAssembly = async(lokId) =>{
+          try {
+            const headers = { 'Authorization': bearer };
+              let URL = window.API_URL+"assembly/list?lok_saba_id="+lokId;
+              const response = await axios.get(URL,{ headers });
+              setAssembly(response.data.data);
+          } catch (error) {
+              console.log(error);
+          }
+        }
   
     useEffect(()=> {
-      fetchUsers();
-      }, [page]);
+      fetchConstituency();
+      if(lokId)
+        fetchAssembly(lokId);
+      }, [lokId]);
   
       return (
         <React.Fragment>
@@ -123,26 +114,43 @@ const Voters = () =>{
                   <Card.Title as="h5">Voters Details</Card.Title>
                 </Card.Header>
                 <Card.Body>
+
+                <Row>
+               
+                        <Col md={6}>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
+                              <Form.Label>Constituency</Form.Label>
+                              <Form.Control name="constituency" as="select" value={lokId} onChange={handleLokSabaChange}>
+                               <option value="">Select Constituency</option>
+                                {
+                                  renderLokSaba()
+                                }
+                              </Form.Control>
+                            </Form.Group>
+                        </Col>
+                        <Col md={6}>
+                            <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
+                              <Form.Label>Assembly</Form.Label>
+                              <Form.Control name="assembly" as="select" value={assemblyId} onChange={handleAssemblyChange}>
+                               <option value="">Select Assembly</option>
+                                {
+                                  renderAssembly()
+                                }
+                              </Form.Control>
+                            </Form.Group>
+                        </Col>
+                    </Row>
+
                   <Table responsive>
                     <thead>
                       <tr>
-                        {renderHeader()}
+                        
                       </tr>
                     </thead>
                     <tbody>
-                              {
-                                renderBody()
-                              }
                           </tbody>
                   </Table>
-                  <div className="my-4 d-flex justify-content-between">
-                          <div>
-                              Showing {users.from} to {users.to} from {users.total} results.
-                          </div>
-                          <div>
-                              {renderPaginationLinks()}
-                          </div>
-                      </div>
+                  
                 </Card.Body>
               </Card>
               
