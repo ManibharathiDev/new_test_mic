@@ -64,18 +64,18 @@ const CreateUser = () =>{
         name: data.name,
         email: data.email,
         user_code:data.usercode,
-        password:"123456",
+        password:123456,
         party:data.party,
         mobile:data.mobile,
         user_type:data.usertype,
         party_type:data.partytype
       };
-      const headers = { 'Authorization': 'Bearer 25|iDa4bOxWyof9NCJiHoThrMDcLVwIgTi5b3Mk2Ixkeac05fb8' };
+      const headers = { 'Authorization': bearer };
       let URL = window.API_URL+"auth/register";
       axios.post(URL,userData,{headers})
       .then((response)=>{
-        console.log(response);
-        console.log(response.data.status, response.data.message);
+        console.log("Response",response);
+        
           if(response.data.status == true)
           {
             setData({
@@ -88,7 +88,21 @@ const CreateUser = () =>{
               mobile:"",
             });
           }
-      });
+          else{
+            alert(response.data.status);
+          }
+      })
+      .catch((error) => {
+        if (error.response && error.response.status === 401) 
+          {
+          console.log("Validation error:", error.response.data.errors);
+        alert("Validation error: " + JSON.stringify(error.response.data.errors));
+        } else {
+          console.error("An error occurred:", error);
+        alert("An error occurred. Please try again.");
+        }
+    });
+  
   }
 
   const fetchParties = async () => {

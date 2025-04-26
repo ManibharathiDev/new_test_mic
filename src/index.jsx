@@ -10,7 +10,7 @@ import reportWebVitals from './reportWebVitals';
 
 window.SITE_URL = "https://manibharathi.in/";
 window.API_URL = "https://manibharathi.in/micapi/public/api/";
-window.IMG_URL = "https://manibharathi.in/micapi/public/uploads/";
+window.IMG_URL = "https://manibharathi.in/micapi/public/";
 
 const container = document.getElementById('root');
 const root = createRoot(container);

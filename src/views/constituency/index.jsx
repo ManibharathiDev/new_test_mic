@@ -115,7 +115,7 @@ const renderBody = () => {
           <Col>
             <Card>
               <Card.Header>
-                <Card.Title as="h5">Country</Card.Title>
+                <Card.Title as="h5">Parliaments</Card.Title>
               </Card.Header>
               <Card.Body>
                 <Table responsive>

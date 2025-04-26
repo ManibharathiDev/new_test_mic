@@ -9,7 +9,7 @@ const Voters = () =>{
     let bearer = ""
     if(secureLocalStorage.getItem("STATUS") != null)
       {
-          console.log("Get");
+          
           const data = JSON.parse(secureLocalStorage.getItem("STATUS"));
           if(!data.status)
           {
@@ -23,7 +23,7 @@ const Voters = () =>{
         window.location.replace("/admin/login");
       }
   
-    const [users, setUsers] = useState([]);
+    const [voters, setVoters] = useState([]);
     const [page, setPage] = useState(1);
 
     const [loksaba, setLokSaba] = useState([]);
@@ -46,10 +46,23 @@ const Voters = () =>{
           )
   )
   
-    const fetchNextPrevTasks = (link) => {
-      const url = new URL(link);
-      setPage(url.searchParams.get('page'));
-    }
+  const fetchNextPrev = (link) => {
+    const url = new URL(link);
+    console.log(url.searchParams.get('page'));
+    setPage(url.searchParams.get('page'));
+  }
+
+    const fetchVoters = async () => {
+        try {
+          const headers = { 'Authorization': bearer };
+          let URL = window.API_URL+"voter/get_all?page="+page+"&parliament_id="+lokId+"&assembly_id="+assemblyId+"&pagination=1";
+          const response = await axios.get(URL,{ headers });
+          setVoters(response.data);
+      } catch (error) {
+          console.log(error);
+      }
+    };
+
       const fetchConstituency = async () =>{
         try {
           const headers = { 'Authorization': bearer };
@@ -88,6 +101,16 @@ const Voters = () =>{
         ))
         }
 
+        const deleteVoter = (id,idx) =>{
+          const headers = { 'Authorization': bearer };
+          let URL = window.API_URL+"voter/delete/"+id;
+          axios.delete(URL,{ headers })  
+          .then(res => {  
+            const data = voters.data.filter(item=>item.id !=id);
+            setVoters({ ...voters, data: data })
+          })  
+        }
+
         const fetchAssembly = async(lokId) =>{
           try {
             const headers = { 'Authorization': bearer };
@@ -98,12 +121,66 @@ const Voters = () =>{
               console.log(error);
           }
         }
+
+        const renderPaginationLinks = () => {
+          return <ul className="pagination">
+              {
+                  voters.links?.map((link,index) => (
+                      <li key={index} className="page-item">
+                          <a style={{cursor: 'pointer'}} className={`page-link ${link.active ? 'active' : ''}`} 
+                              onClick={() => fetchNextPrev(link.url)}>
+                              {link.label.replace('&laquo;', '').replace('&raquo;', '')}
+                          </a>
+                      </li>
+                  ))
+              }
+          </ul>
+      }
+
+      
+        const renderHeader = () => {
+          let headerElement = ['#', 'name', 'epic number','category',  'gender','Father Name', 'booth number','line','Booth Address']
+        
+          return headerElement.map((key, index) => {
+              return <th key={index}>{key.toUpperCase()}</th>
+          })
+        }
+
+        const renderBody = () => {
+          return voters.data?.map((voter,index) => (
+            <tr key={voter.id}>
+                 <td>{index+1}</td>
+                <td>{voter.name}</td>
+                <td>{voter.epic_number}</td>
+                <td>{voter.category}</td>
+                <td>{voter.gender}</td>
+                <td>{voter.father_name}</td>
+                <td>{voter.booth_number}</td>
+                <td>{voter.line_number}</td>
+                <td>{voter.booth_address}</td>
+                {/* <td><Link to={`../app/voter/edit/${voter.id}`} className="label theme-bg2 text-white f-12">
+                <i className='feather icon-edit'></i> Edit
+                </Link>
+                <Link to="#" onClick={()=>deleteVoter(voter.id,index)} className="label theme-bg text-c-red  f-12">
+                <i className='feather icon-delete'></i> Delete
+                </Link></td> */}
+            </tr>
+        ))
+        }
   
     useEffect(()=> {
-      fetchConstituency();
-      if(lokId)
-        fetchAssembly(lokId);
-      }, [lokId]);
+         fetchConstituency();
+        if(lokId)
+        {
+            fetchAssembly(lokId);
+            fetchVoters()
+        }
+        if(assemblyId){
+            fetchVoters
+        }
+        if(page)
+          fetchVoters()
+      }, [page,lokId,assemblyId]);
   
       return (
         <React.Fragment>
@@ -142,14 +219,21 @@ const Voters = () =>{
                     </Row>
 
                   <Table responsive>
-                    <thead>
-                      <tr>
-                        
-                      </tr>
-                    </thead>
-                    <tbody>
-                          </tbody>
-                  </Table>
+                                    <thead>
+                                      {renderHeader()}
+                                    </thead>
+                                    <tbody>
+                                      {renderBody()} 
+                                    </tbody>
+                                  </Table>
+                                  <div className="my-4 d-flex justify-content-between">
+                        <div>
+                            Showing {voters.from} to {voters.to} from {voters.total} results.
+                        </div>
+                        <div>
+                            {renderPaginationLinks()}
+                        </div>
+                    </div>
                   
                 </Card.Body>
               </Card>

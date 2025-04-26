@@ -104,7 +104,7 @@ const EditConstituency = () =>{
       const fetchParliamentsById = (id) =>{
         try {
             const headers = { 'Authorization': bearer };
-          let URL = window.API_URL+"assembly/show/"+id;
+          let URL = window.API_URL+"parliaments/show/"+id;
             axios.get(URL,{headers})
             .then(response =>{
                 console.log(response.data);

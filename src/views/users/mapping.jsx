@@ -195,8 +195,22 @@ const Mapping = () =>{
               setToDate("");
               setPartyId("");
               setUserId("");
+              alert("Mapping created successfully");
             }
-        });
+            else{
+              alert("Something went wrong");
+            }
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 401) 
+            {
+            console.log("Validation error:", error.response.data.errors);
+          alert("Validation error: " + JSON.stringify(error.response.data.errors));
+          } else {
+            console.error("An error occurred:", error);
+          alert("An error occurred. Please try again.");
+          }
+      });
 
       }
 
