@@ -5,6 +5,7 @@ import Loader from './components/Loader/Loader';
 import AdminLayout from './layouts/AdminLayout';
 
 import { BASE_URL } from './config/constant';
+import { path } from 'd3';
 
 export const renderRoutes = (routes = []) => (
   <Suspense fallback={<Loader />}>
@@ -218,6 +219,11 @@ const routes = [
         exact:'true',
         path:'/app/voters/view',
         element: lazy(()=>import('./views/voters/index'))
+      },
+      {
+        exact:'true',
+        path:'/app/voters/show/:id',
+        element: lazy(()=>import('./views/voters/view'))
       },
 
       {
