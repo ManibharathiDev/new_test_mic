@@ -5,19 +5,7 @@ import {
   Row,
   Col,
   Card,
-  Table,
-  Tabs,
-  Tab,
-  Button,
-  OverlayTrigger,
-  Tooltip,
-  ButtonToolbar,
-  Dropdown,
-  DropdownButton,
-  SplitButton,
-  CardBody,
-  Form
-} from 'react-bootstrap';
+  CardBody} from 'react-bootstrap';
 import secureLocalStorage from 'react-secure-storage';
 import { useLocation, useParams } from 'react-router-dom';
 const ViewVoter = () => {
@@ -36,19 +24,18 @@ const ViewVoter = () => {
   const { id } = useParams();
   const location = useLocation();
 
-  console.log('Voters data', location.state);
-
   const [voter, setVoter] = useState({});
 
   const fetchVoterDetailsById = () => {
     try {
       const headers = { Authorization: bearer };
-      let URL = window.API_URL + 'party/' + id;
+
+      let URL = window.API_URL + 'voter/get_all?id=' + id;
       axios
         .get(URL, { headers })
         .then((response) => {
-          console.log(response.data);
-          setVoter(response.data.data);
+          console.log(response.data.data[0]);
+          setVoter(response.data.data[0]);
         })
         .catch((err) => {
           console.log(err);
@@ -57,6 +44,16 @@ const ViewVoter = () => {
       console.log(error);
     }
   };
+
+  const profileImage = {
+    width: '150px',
+    height: '180px',
+    borderRadius: '25px',
+    margin: '10px',
+    border: '1px solid #000',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)'
+    
+  }
 
   useEffect(() => {
     fetchVoterDetailsById();
@@ -72,6 +69,12 @@ const ViewVoter = () => {
             </Card.Header>
             <CardBody>
               <table className="table table-bordered table-striped">
+                <tr>
+                  <td>
+                    <img src={`${window.IMG_URL}uploads/${voter?.profile_image}`} style={profileImage} alt="Profile" />
+                  </td>
+                </tr>
+
                 <tr>
                   <td>Voter Name</td>
                   <td>
@@ -141,22 +144,22 @@ const ViewVoter = () => {
                 <tr>
                   <td>Father's Name</td>
                   <td>
-                    <strong>{voter?.email}</strong>
+                    <strong>{voter?.father_name}</strong>
                   </td>
                   <td>Husband's Name</td>
                   <td>
-                    <strong>{voter?.email}</strong>
+                    <strong>{voter?.husband_name}</strong>
                   </td>
                 </tr>
 
                 <tr>
                   <td>District</td>
                   <td>
-                    <strong>{voter?.email}</strong>
+                    <strong>{voter?.district_data?.name}</strong>
                   </td>
                   <td>Ward Type</td>
                   <td>
-                    <strong>{voter?.email}</strong>
+                    <strong>{voter?.ward_type}</strong>
                   </td>
                 </tr>
 
@@ -167,40 +170,29 @@ const ViewVoter = () => {
                   </td>
                   <td>Ward Number</td>
                   <td>
-                    <strong>{voter?.email}</strong>
+                    <strong>{voter?.ward_number}</strong>
                   </td>
                 </tr>
 
                 <tr>
                   <td>Qualification</td>
                   <td>
-                    <strong>{voter?.email}</strong>
+                    <strong>{voter?.qualification}</strong>
                   </td>
                   <td>Occupation</td>
                   <td>
-                    <strong>{voter?.email}</strong>
+                    <strong>{voter?.occupation}</strong>
                   </td>
                 </tr>
 
                 <tr>
                   <td>Job Seeker</td>
                   <td>
-                    <strong>{voter?.email}</strong>
+                    <strong>{voter?.seeking_job}</strong>
                   </td>
                   <td>Taking life-saving meds?</td>
                   <td>
-                    <strong>{voter?.email}</strong>
-                  </td>
-                </tr>
-
-                <tr>
-                  <td>Job Seeker</td>
-                  <td>
-                    <strong>Yes</strong>
-                  </td>
-                  <td>Taking life-saving meds?</td>
-                  <td>
-                    <strong>No</strong>
+                    <strong>{voter?.medicine_status}</strong>
                   </td>
                 </tr>
 
@@ -213,11 +205,11 @@ const ViewVoter = () => {
                 <tr>
                   <td>Male</td>
                   <td>
-                    <strong>{voter?.email}</strong>
+                    <strong>{voter?.minor_male}</strong>
                   </td>
                   <td>Female</td>
                   <td>
-                    <strong>{voter?.email}</strong>
+                    <strong>{voter?.minor_female}</strong>
                   </td>
                 </tr>
                 <tr>
@@ -229,33 +221,33 @@ const ViewVoter = () => {
                 <tr>
                   <td>Male</td>
                   <td>
-                    <strong>5</strong>
+                    <strong>{voter?.govt_emp_male}</strong>
                   </td>
                   <td>Female</td>
                   <td>
-                    <strong>6</strong>
+                    <strong>{voter?.govt_emp_female}</strong>
                   </td>
                 </tr>
 
                 <tr>
                   <td>Religion</td>
                   <td>
-                    <strong>Hindu</strong>
+                    <strong>{voter?.religion_data?.name}</strong>
                   </td>
                   <td>Community</td>
                   <td>
-                    <strong>MBC</strong>
+                    <strong>{voter?.community_data?.name}</strong>
                   </td>
                 </tr>
 
                 <tr>
                   <td>Caste</td>
                   <td>
-                    <strong>Hindu</strong>
+                    <strong>{voter?.caste_data?.name}</strong>
                   </td>
                   <td>Sub-caste</td>
                   <td>
-                    <strong>MBC</strong>
+                    <strong>{voter?.subcaste_data?.name}</strong>
                   </td>
                 </tr>
               </table>

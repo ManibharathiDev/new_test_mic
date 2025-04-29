@@ -5,21 +5,12 @@ import {
   Row,
   Col,
   Card,
-  Table,
-  Tabs,
-  Tab,
   Button,
-  OverlayTrigger,
-  Tooltip,
-  ButtonToolbar,
-  Dropdown,
-  DropdownButton,
-  SplitButton,
   CardBody,
   Form
 } from 'react-bootstrap';
 import secureLocalStorage from 'react-secure-storage';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 const EditAssembly = () => {
   let token = '';
   let bearer = '';

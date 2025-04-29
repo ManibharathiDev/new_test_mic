@@ -6,20 +6,10 @@ import {
   Col,
   Card,
   Table,
-  Tabs,
-  Tab,
   Button,
-  OverlayTrigger,
-  Tooltip,
-  ButtonToolbar,
-  Dropdown,
-  DropdownButton,
-  SplitButton,
-  CardBody,
   Form
 } from 'react-bootstrap';
 import secureLocalStorage from 'react-secure-storage';
-import MultipleValueTextInput from 'react-multivalue-text-input';
 const CreateAssembly = () => {
   let token = '';
   let bearer = '';
