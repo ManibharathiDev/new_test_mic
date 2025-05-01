@@ -166,11 +166,22 @@ const ViewVoter = () => {
                 <tr>
                   <td>Ward Name</td>
                   <td>
-                    <strong>{voter?.email}</strong>
+                    <strong>{voter?.ward_data?.name}</strong>
                   </td>
                   <td>Ward Number</td>
                   <td>
                     <strong>{voter?.ward_number}</strong>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Panjayath</td>
+                  <td>
+                    <strong>{voter?.panjayath_data?.name}</strong>
+                  </td>
+                  <td>Grama Panjayath</td>
+                  <td>
+                    <strong>{voter?.village_data?.name}</strong>
                   </td>
                 </tr>
 
