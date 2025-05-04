@@ -34,13 +34,11 @@ const EditConstituency = () => {
     window.location.replace('/admin/login');
   }
   const { id } = useParams();
-  const [country, setCountry] = useState([]);
   const [state, setState] = useState([]);
   const [data, setData] = useState({
     state_id: '',
     name: ''
   });
-  const [countryId, setCountryId] = useState('');
   const renderState = () => {
     return state?.map((st, index) => (
       <option value={st.id} key={st.id}>
@@ -62,17 +60,17 @@ const EditConstituency = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const userData = {
-      country_code: data.country_code,
+      state_id: data.state_id,
       name: data.name
     };
     const headers = { Authorization: bearer };
-    let URL = window.API_URL + 'country';
-    axios.post(URL, userData, { headers }).then((response) => {
+    let URL = window.API_URL + 'lokconstituency/update/' + id;
+    axios.put(URL, userData, { headers }).then((response) => {
       console.log(response);
       console.log(response.data.status, response.data.message);
       if (response.data.status == true) {
         setData({
-          country_code: '',
+          state_id: '',
           name: ''
         });
       }
@@ -82,7 +80,7 @@ const EditConstituency = () => {
   const fetchStates = async (id) => {
     try {
       const headers = { Authorization: bearer };
-      let URL = window.API_URL + 'state/country/' + id;
+      let URL = window.API_URL + 'state?country_id=' + id;
       const response = await axios.get(URL, { headers });
       console.log(response.data.result);
       setState(response.data.data);
@@ -91,42 +89,25 @@ const EditConstituency = () => {
     }
   };
 
-  const fetchCountry = async () => {
-    try {
-      const headers = { Authorization: bearer };
-      let URL = window.API_URL + 'country/get';
-      const response = await axios.get(URL, { headers });
-      setCountry(response.data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const renderCountry = () => {
-    return country?.map((cont, index) => (
-      <option value={cont.id} key={cont.id}>
-        {cont.name}
-      </option>
-    ));
-  };
+
 
   const fetchParliamentsById = (id) => {
     try {
       const headers = { Authorization: bearer };
-      let URL = window.API_URL + 'parliaments/show/' + id;
+      let URL = window.API_URL + 'parliament/show/' + id;
       axios
         .get(URL, { headers })
         .then((response) => {
-          console.log(response.data);
+          if (response.data.status == true) {
           setData({
-            lok_saba_id: response.data.data[0].lok_saba_id,
-            district_id: response.data.data[0].district_id,
-            state_id: response.data.data[0].state_id,
-            assembly: response.data.data[0].name,
-            first_booth: response.data.data[0].first_booth,
-            last_booth: response.data.data[0].last_booth,
-            seq: response.data.data[0].seq,
-            status: response.data.data[0].status
+            state_id: response.data.data[0].state_data.id,
+            name: response.data.data[0].name
           });
+          window.location.replace('/admin/app/constituency/view/');
+        }
+        else{
+          console.log('Transaction error');
+        }
         })
         .catch((err) => {
           console.log(err);
@@ -136,10 +117,9 @@ const EditConstituency = () => {
     }
   };
   useEffect(() => {
-    fetchCountry();
-    if (countryId) fetchStates(countryId);
+    fetchStates(1);
     fetchParliamentsById(id);
-  }, [countryId, id]);
+  }, [id]);
   return (
     <React.Fragment>
       <Row>
@@ -151,15 +131,6 @@ const EditConstituency = () => {
             <CardBody>
               <Form onSubmit={handleSubmit}>
                 <Row>
-                  <Col md={4}>
-                    <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
-                      <Form.Label>Country</Form.Label>
-                      <Form.Control name="country_id" as="select" value={countryId} onChange={handleChange}>
-                        <option value="">Select Country</option>
-                        {renderCountry()}
-                      </Form.Control>
-                    </Form.Group>
-                  </Col>
                   <Col md={4}>
                     <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
                       <Form.Label>State</Form.Label>
@@ -186,7 +157,7 @@ const EditConstituency = () => {
                 <Row>
                   <Col md={12}>
                     <Button type="submit" className="text-capitalize btn btn-primary">
-                      Save
+                      Update
                     </Button>
                     <Button type="reset" className="text-capitalize btn btn-secondary">
                       Clear

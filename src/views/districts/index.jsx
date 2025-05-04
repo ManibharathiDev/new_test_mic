@@ -68,9 +68,9 @@ const Districts = () => {
         <td>{state.name}</td>
         <td>{state.state_data.name}</td>
         <td>
-          {/* <Link to={`../app/district/edit/${state.id}`} className="label theme-bg2 text-white f-12">
+          <Link to={`../app/district/edit/${state.id}`} className="label theme-bg2 text-white f-12">
         <i className='feather icon-edit'></i> Edit
-        </Link> */}
+        </Link>
           <Link to="#" onClick={() => deletes(state.id, index)} className="label theme-bg text-c-red  f-12">
             <i className="feather icon-delete"></i> Delete
           </Link>

@@ -47,6 +47,35 @@ const EditDistrict = () => {
     });
   };
 
+  const fetchStates = () => {
+    try {
+      const headers = { Authorization: bearer };
+      let URL = window.API_URL + 'state';
+      axios
+        .get(URL, { headers })
+        .then((response) => {
+          console.log(response.data);
+          setState(response.data.data);
+          //fetchDistrictById();
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  const renderState = () => {
+    return state.map((item, index) => {
+      return (
+        <option key={index} value={item.id}>
+          {item.name}
+        </option>
+      );
+    });
+  }
+
   const fetchDistrictById = () => {
     try {
       const headers = { Authorization: bearer };
@@ -56,8 +85,8 @@ const EditDistrict = () => {
         .then((response) => {
           console.log(response.data);
           setData({
-            state_id: response.data.data.country_id,
-            name: response.data.data.name
+            state_id: response.data.data[0].state_data.id,
+            name: response.data.data[0].name
           });
         })
         .catch((err) => {
@@ -71,7 +100,7 @@ const EditDistrict = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const userData = {
-      country_id: data.country_id,
+      state_id: data.state_id,
       name: data.name
     };
     const headers = { Authorization: bearer };
@@ -91,8 +120,9 @@ const EditDistrict = () => {
     });
   };
   useEffect(() => {
-    fetchDistrictById();
+    //
     fetchStates();
+    fetchDistrictById();
   }, []);
   return (
     <React.Fragment>
@@ -100,7 +130,7 @@ const EditDistrict = () => {
         <Col>
           <Card>
             <Card.Header>
-              <Card.Title as="h5">Create New State</Card.Title>
+              <Card.Title as="h5">Edit State</Card.Title>
             </Card.Header>
             <CardBody>
               <Form onSubmit={handleSubmit}>
@@ -116,8 +146,8 @@ const EditDistrict = () => {
                   </Col>
                   <Col md={4}>
                     <Form.Group className="mb-3" controlId="formDescription">
-                      <Form.Label>State</Form.Label>
-                      <Form.Control type="text" value={data.name} name="name" onChange={handleChange} placeholder="Enter the State Name" />
+                      <Form.Label>District</Form.Label>
+                      <Form.Control type="text" value={data.name} name="name" onChange={handleChange} placeholder="Enter the District Name" />
                     </Form.Group>
                   </Col>
                 </Row>
@@ -125,7 +155,7 @@ const EditDistrict = () => {
                 <Row>
                   <Col md={12}>
                     <Button type="submit" className="text-capitalize btn btn-primary">
-                      Save
+                      Update
                     </Button>
                     <Button type="reset" className="text-capitalize btn btn-secondary">
                       Clear

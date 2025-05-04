@@ -54,7 +54,7 @@ const Constituency = () => {
   };
 
   const renderHeader = () => {
-    let headerElement = ['#', 'name', 'action'];
+    let headerElement = ['#', 'name','state','action'];
 
     return headerElement.map((key, index) => {
       return <th key={index}>{key.toUpperCase()}</th>;
@@ -66,6 +66,7 @@ const Constituency = () => {
       <tr key={con.id}>
         <td>{index + 1}</td>
         <td>{con.name}</td>
+        <td>{con.state_data.name}</td>
         <td>
           <Link to={`../app/constituency/edit/${con.id}`} className="label theme-bg2 text-white f-12">
             <i className="feather icon-edit"></i> Edit
@@ -81,7 +82,7 @@ const Constituency = () => {
   const fetchConstituency = async () => {
     try {
       const headers = { Authorization: bearer };
-      let URL = window.API_URL + 'lokconstituency?page=' + page;
+      let URL = window.API_URL + 'parliament/getall?page=' + page;
       const response = await axios.get(URL, { headers });
       setCons(response.data);
     } catch (error) {
