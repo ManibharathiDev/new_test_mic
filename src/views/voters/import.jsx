@@ -21,6 +21,7 @@ import {
 import { Link } from 'react-router-dom';
 import secureLocalStorage from 'react-secure-storage';
 import * as XLSX from 'xlsx';
+import moment from 'moment';
 const VotersImport = () => {
   let token = '';
   let bearer = '';
@@ -39,6 +40,9 @@ const VotersImport = () => {
   const [data, setData] = useState(null);
   const [parliament, setParliament] = useState('');
   const [assembly, setAssembly] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
+  const [buttonText, setButtonText] = useState('Upload');
+
 
   const fetchLokSaba = async () => {
     try {
@@ -82,8 +86,17 @@ const VotersImport = () => {
       const sheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[sheetName];
       const sheetData = XLSX.utils.sheet_to_json(sheet);
-      console.log('Data', sheetData);
-      setData(sheetData);
+      
+// Convert date serial numbers to readable date formats
+ const formattedData = sheetData.map(row => {
+  if (row.DATE_OF_BIRTH) {
+   row.DATE_OF_BIRTH = moment(new Date((row.DATE_OF_BIRTH - 25569) * 86400 * 1000)).format('DD-MM-YYYY');
+   }
+ return row;
+   });
+  
+      console.log('Data', formattedData);
+      setData(formattedData);
     };
 
     reader.readAsBinaryString(file);
@@ -94,13 +107,21 @@ const VotersImport = () => {
       '#',
       'EPIC Number',
       'Name',
+      'Name in Tamil',
       'Booth Number',
       'Booth Address',
+      'Section',
       'Line Number',
       'Gender',
-      'Age',
-      'Father Name',
-      'Husband Name'
+      'Date of Birth',
+      // 'Age',
+      'Relative Name',
+      'Relation',
+      // 'Father Name',
+      // 'Husband Name',
+      'Mobile Number',
+      'Whatsapp Number',
+      'Address'
     ];
 
     return headerElement.map((key, index) => {
@@ -114,13 +135,21 @@ const VotersImport = () => {
         <td>{index + 1}</td>
         <td>{user.EPIC_NUMBER}</td>
         <td>{user.VOTER_NAME}</td>
+        <td>{user.VOTER_NAME_TAMIL}</td>
         <td>{user.BOOTH_NUMBER}</td>
         <td>{user.BOOTH_ADDRESS}</td>
+        <td>{user.SECTION}</td>
         <td>{user.LINE_NUMBER}</td>
         <td>{user.GENDER}</td>
-        <td>{user.AGE}</td>
-        <td>{user.FATHER_NAME}</td>
-        <td>{user.HUSBAND_NAME}</td>
+        <td>{user.DATE_OF_BIRTH}</td>
+        {/* <td>{user.AGE}</td> */}
+        <td>{user.RELATIVE_NAME}</td>
+        <td>{user.RELATION}</td>
+        {/* <td>{user.FATHER_NAME}</td>
+        <td>{user.HUSBAND_NAME}</td> */}
+        <td>{user.MOBILE_NUMBER}</td>
+        <td>{user.WHATSAPP_NUMBER}</td>
+        <td>{user.ADDRESS}</td>
       </tr>
     ));
   };
@@ -143,6 +172,10 @@ const VotersImport = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+  setIsUploading(true);
+  setButtonText('Please wait...');
+
     const userData = {
       LOK_SHABA_ID: parliament,
       LEGISLATIVE_ID: assembly,
@@ -157,6 +190,10 @@ const VotersImport = () => {
       if (response.data.status == true) {
         setData(null);
       }
+      
+    setIsUploading(false);
+    setButtonText('Upload');
+
     });
   };
 
@@ -200,8 +237,8 @@ const VotersImport = () => {
                     <Form.Control className="mx-2" type="file" onChange={handleUpload} />
                   </Form.Group>
                   <Form.Group className="d-inline-flex mr-5 mx-3 align-items-center">
-                    <Button type="button" className="text-capitalize btn btn-primary" onClick={handleSubmit}>
-                      Upload
+                    <Button type="button" className="text-capitalize btn btn-primary" onClick={handleSubmit} disabled={isUploading}>
+                      {buttonText}
                     </Button>
                   </Form.Group>
                 </Form>

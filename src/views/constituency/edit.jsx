@@ -103,7 +103,7 @@ const EditConstituency = () => {
             state_id: response.data.data[0].state_data.id,
             name: response.data.data[0].name
           });
-          window.location.replace('/admin/app/constituency/view/');
+          
         }
         else{
           console.log('Transaction error');
