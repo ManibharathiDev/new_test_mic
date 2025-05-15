@@ -40,6 +40,9 @@ const Voters = () => {
   const [lokId, setLokId] = useState('');
   const [assembly, setAssembly] = useState([]);
   const [assemblyId, setAssemblyId] = useState('');
+  const [firstBooth, setFirstBooth] = useState('');
+  const [lastBooth, setLastBooth] = useState('');
+  const [boothId, setBoothId] = useState('');
 
   const checkIfTaskIsDone = (done) =>
     done ? <span className="badge bg-success">Done</span> : <span className="badge bg-danger">Processing...</span>;
@@ -53,7 +56,7 @@ const Voters = () => {
   const fetchVoters = async () => {
     try {
       const headers = { Authorization: bearer };
-      let URL = window.API_URL + 'voter/get_all?page=' + page + '&parliament_id=' + lokId + '&assembly_id=' + assemblyId + '&pagination=1';
+      let URL = window.API_URL + 'voter/getbyfilter?page=' + page + '&parliament_id=' + lokId + '&assembly_id=' + assemblyId + '&pagination=1&booth_number=' + boothId;
       const response = await axios.get(URL, { headers });
       setVoters(response.data);
     } catch (error) {
@@ -78,9 +81,34 @@ const Voters = () => {
     //fetchAssembly(lokId);
   };
 
+  const handleBoothChange = (e) => {
+    var boothId = e.target.value;
+    setBoothId(boothId);
+    //fetchAssembly(lokId);
+  }
+
   const handleAssemblyChange = (e) => {
     var assemblyId = e.target.value;
     setAssemblyId(assemblyId);
+    assembly.forEach((item) => {
+      if (item.id == assemblyId) {
+        setFirstBooth(item.first_booth);
+        setLastBooth(item.last_booth);
+      }
+    });
+  };
+
+  const renderBooth = () => {
+      
+    let booth = [];
+    for (let i = firstBooth; i <= lastBooth; i++) {
+      booth.push(i);
+    }
+    return booth.map((booth, index) => (
+      <option value={booth} key={index}>
+        {booth}
+      </option>
+    ));
   };
 
   const renderLokSaba = () => {
@@ -178,11 +206,11 @@ const Voters = () => {
       fetchAssembly(lokId);
       fetchVoters();
     }
-    if (assemblyId) {
+    if (assemblyId || boothId) {
       fetchVoters;
     }
     if (page) fetchVoters();
-  }, [page, lokId, assemblyId]);
+  }, [page, lokId, assemblyId, boothId]);
 
   return (
     <React.Fragment>
@@ -194,7 +222,7 @@ const Voters = () => {
             </Card.Header>
             <Card.Body>
               <Row>
-                <Col md={6}>
+                <Col md={4}>
                   <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
                     <Form.Label>Constituency</Form.Label>
                     <Form.Control name="constituency" as="select" value={lokId} onChange={handleLokSabaChange}>
@@ -203,12 +231,21 @@ const Voters = () => {
                     </Form.Control>
                   </Form.Group>
                 </Col>
-                <Col md={6}>
+                <Col md={4}>
                   <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
                     <Form.Label>Assembly</Form.Label>
                     <Form.Control name="assembly" as="select" value={assemblyId} onChange={handleAssemblyChange}>
                       <option value="">Select Assembly</option>
                       {renderAssembly()}
+                    </Form.Control>
+                  </Form.Group>
+                </Col>
+                <Col md={4}>
+                  <Form.Group className="mb-3" controlId="exampleForm.ControlSelect1">
+                    <Form.Label>Booth</Form.Label>
+                    <Form.Control name="assembly" as="select" value={boothId} onChange={handleBoothChange}>
+                      <option value="">Select Booth</option>
+                      {renderBooth()}
                     </Form.Control>
                   </Form.Group>
                 </Col>

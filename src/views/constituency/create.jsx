@@ -62,7 +62,8 @@ const CreateConstituency = () => {
     e.preventDefault();
     const userData = {
       country_code: data.country_code,
-      name: data.name
+      name: data.name,
+      state_id: data.state_id
     };
     const headers = { Authorization: bearer };
     let URL = window.API_URL + 'lokconstituency/create';
@@ -72,7 +73,8 @@ const CreateConstituency = () => {
       if (response.data.status == true) {
         setData({
           country_code: '',
-          name: ''
+          name: '',
+          state_id: ''
         });
       }
     });

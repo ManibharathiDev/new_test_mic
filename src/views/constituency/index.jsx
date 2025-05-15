@@ -32,7 +32,7 @@ const Constituency = () => {
 
   const deletes = (id, idx) => {
     const headers = { Authorization: bearer };
-    let URL = window.API_URL + 'country/delete/' + id;
+    let URL = window.API_URL + 'parliament/delete/' + id;
     axios.delete(URL, { headers }).then((res) => {
       const data = cons.data.filter((item) => item.id != id);
       setCons({ ...cons, data: data });
@@ -66,7 +66,7 @@ const Constituency = () => {
       <tr key={con.id}>
         <td>{index + 1}</td>
         <td>{con.name}</td>
-        <td>{con.state_data.name}</td>
+        <td>{con.state_data?.name}</td>
         <td>
           <Link to={`../app/constituency/edit/${con.id}`} className="label theme-bg2 text-white f-12">
             <i className="feather icon-edit"></i> Edit

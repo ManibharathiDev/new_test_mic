@@ -55,6 +55,22 @@ const ViewVoter = () => {
     
   }
 
+  
+const calculateAge = (date) => {
+    if(date === null || date === undefined || date === '') {
+      return '';
+    }
+    const birthDate = new Date(date);
+    const today = new Date();
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDifference = today.getMonth() - birthDate.getMonth();
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < birthDate.getDate())) {
+    age--;
+    }
+    return age;
+ };
+
+
   useEffect(() => {
     fetchVoterDetailsById();
   }, [id]);
@@ -124,9 +140,20 @@ const ViewVoter = () => {
                   <td>
                     <strong>{voter?.line_number}</strong>
                   </td>
+                  <td>Section</td>
+                  <td>
+                    <strong>{voter?.section}</strong>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Date of birth</td>
+                  <td>
+                    <strong>{voter?.date_of_birth}</strong>
+                  </td>
                   <td>Age</td>
                   <td>
-                    <strong>{voter?.age}</strong>
+                    <strong>{calculateAge(voter?.date_of_birth)}</strong>
                   </td>
                 </tr>
 
@@ -135,6 +162,13 @@ const ViewVoter = () => {
                   <td>
                     <strong>{voter?.mobile_number}</strong>
                   </td>
+                  <td>Whatsapp Number</td>
+                  <td>
+                    <strong>{voter?.whatsapp_number}</strong>
+                  </td>
+                </tr>
+                <tr>
+                  
                   <td>Email ID</td>
                   <td>
                     <strong>{voter?.email}</strong>
@@ -253,11 +287,11 @@ const ViewVoter = () => {
 
                 <tr>
                   <td>Caste</td>
-                  <td>
+                  <td width="300px">
                     <strong>{voter?.caste_data?.name}</strong>
                   </td>
                   <td>Sub-caste</td>
-                  <td>
+                  <td width="300px">
                     <strong>{voter?.subcaste_data?.name}</strong>
                   </td>
                 </tr>

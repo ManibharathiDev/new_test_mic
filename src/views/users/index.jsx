@@ -5,17 +5,7 @@ import {
   Row,
   Col,
   Card,
-  Table,
-  Tabs,
-  Tab,
-  Button,
-  OverlayTrigger,
-  Tooltip,
-  ButtonToolbar,
-  Dropdown,
-  DropdownButton,
-  SplitButton
-} from 'react-bootstrap';
+  Table} from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import secureLocalStorage from 'react-secure-storage';
 const Users = () => {
@@ -72,7 +62,7 @@ const Users = () => {
   };
 
   const renderHeader = () => {
-    let headerElement = ['#', 'name', 'user code', 'party', 'status', 'action'];
+    let headerElement = ['#', 'name', 'user code', 'party', 'mobile number','email', 'action'];
 
     return headerElement.map((key, index) => {
       return <th key={index}>{key.toUpperCase()}</th>;
@@ -85,8 +75,9 @@ const Users = () => {
         <td>{index + 1}</td>
         <td>{user.name}</td>
         <td>{user.user_code}</td>
-        <td>{user.user_code}</td>
-        <td>{user.user_code}</td>
+        <td>{user.party_id}</td>
+        <td>{user.mobile_number}</td>
+        <td>{user.email}</td>
         <td>
           <Link to="#" className="label theme-bg2 text-white f-12">
             <i className="feather icon-edit"></i> Edit
@@ -94,25 +85,24 @@ const Users = () => {
           <Link to="#" onClick={() => deleteUser(user.id, index)} className="label theme-bg text-c-red  f-12">
             <i className="feather icon-delete"></i> Delete
           </Link>
-          <Link to="../app/users/mapping" onClick={() => deleteUser(user.id, index)} className="label theme-bg text-c-red  f-12">
-            <i className="feather icon-delete"></i> Assembly Map
-          </Link>
+          
         </td>
       </tr>
     ));
   };
 
-  const fetchUsers = async () => {
-    console.log('Bearer ', bearer);
-    try {
-      const headers = { Authorization: bearer };
-      let URL = window.API_URL + 'user/?page=' + page;
-      const response = await axios.get(URL, { headers });
-      setUsers(response.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
+ const fetchUsers = async () => {
+  try {
+    const headers = { Authorization: bearer };
+    let URL = window.API_URL + 'user?page=' + page;
+    const response = await axios.get(URL, { headers });
+    setUsers(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 
   useEffect(() => {
     fetchUsers();
