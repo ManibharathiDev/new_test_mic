@@ -176,6 +176,17 @@ const calculateAge = (date) => {
                 </tr>
 
                 <tr>
+                  <td>Relative Name</td>
+                  <td>
+                    <strong>{voter?.relative_name}</strong>
+                  </td>
+                  <td>Relationship</td>
+                  <td>
+                    <strong>{voter?.relation}</strong>
+                  </td>
+                </tr>
+
+                {/* <tr>
                   <td>Father's Name</td>
                   <td>
                     <strong>{voter?.father_name}</strong>
@@ -184,7 +195,7 @@ const calculateAge = (date) => {
                   <td>
                     <strong>{voter?.husband_name}</strong>
                   </td>
-                </tr>
+                </tr> */}
 
                 <tr>
                   <td>District</td>
@@ -209,7 +220,7 @@ const calculateAge = (date) => {
                 </tr>
 
                 <tr>
-                  <td>Panjayath</td>
+                  <td>Panjayath Union</td>
                   <td>
                     <strong>{voter?.panjayath_data?.name}</strong>
                   </td>
