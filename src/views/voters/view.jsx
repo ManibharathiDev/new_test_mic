@@ -268,6 +268,23 @@ const calculateAge = (date) => {
                     <strong>{voter?.minor_female}</strong>
                   </td>
                 </tr>
+
+                <tr>
+                  <td>
+                    <strong>Childrens between 14 & 18 years</strong>
+                  </td>
+                </tr>
+
+                <tr>
+                  <td>Male</td>
+                  <td>
+                    <strong>{voter?.nvoters_male}</strong>
+                  </td>
+                  <td>Female</td>
+                  <td>
+                    <strong>{voter?.nvoters_female}</strong>
+                  </td>
+                </tr>
                 <tr>
                   <td>
                     <strong>Government Employees at home</strong>

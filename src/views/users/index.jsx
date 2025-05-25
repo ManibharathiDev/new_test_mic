@@ -62,7 +62,7 @@ const Users = () => {
   };
 
   const renderHeader = () => {
-    let headerElement = ['#', 'name', 'user code', 'party', 'mobile number','email', 'action'];
+    let headerElement = ['#', 'Profile','name', 'user code', 'user type', 'party type','party', 'mobile number','email', 'action'];
 
     return headerElement.map((key, index) => {
       return <th key={index}>{key.toUpperCase()}</th>;
@@ -70,26 +70,55 @@ const Users = () => {
   };
 
   const renderBody = () => {
-    return users.data?.map((user, index) => (
-      <tr key={user.id}>
-        <td>{index + 1}</td>
-        <td>{user.name}</td>
-        <td>{user.user_code}</td>
-        <td>{user.party_id}</td>
-        <td>{user.mobile_number}</td>
-        <td>{user.email}</td>
-        <td>
-          <Link to="#" className="label theme-bg2 text-white f-12">
-            <i className="feather icon-edit"></i> Edit
-          </Link>
-          <Link to="#" onClick={() => deleteUser(user.id, index)} className="label theme-bg text-c-red  f-12">
-            <i className="feather icon-delete"></i> Delete
-          </Link>
-          
-        </td>
+  if (!users?.data || users.data.length === 0) {
+    return (
+      <tr>
+        <td colSpan="9" className="text-center">No users found</td>
       </tr>
-    ));
-  };
+    );
+  }
+
+  const profileImage = {
+    width: '70px',
+    height: '80px',
+    borderRadius: '15px',
+    margin: '4px',
+    border: '1px solid #000',
+    boxShadow: '0 0 10px rgba(0, 0, 0, 0.5)'
+    
+  }
+
+  return users.data.map((user, index) => (
+    <tr key={user.id ?? index}> 
+      <td>{index + 1}</td>
+      <td>
+      {user?.profile_image ? (
+        <img src={`${window.IMG_URL}/${user.profile_image}`} alt="Profile" style={profileImage} />
+      ) : null}
+    </td>
+      <td>{user.name ?? 'N/A'}</td>
+      <td>{user.user_code ?? 'N/A'}</td>
+      <td>{user.user_type === 'PARTY' ? 'Party User' : 'Web User'}</td>
+      <td>{user.party_type ?? 'N/A'}</td>
+      <td>{user.party_id ?? 'N/A'}</td>
+      <td>{user.mobile_number ?? 'N/A'}</td>
+      <td>{user.email ?? 'N/A'}</td>
+      <td>
+        <Link to={`../app/users/edit/${user.id}`} className="label theme-bg2 text-white f-12">
+          <i className="feather icon-edit"></i> Edit
+        </Link>
+        <Link 
+          to="#" 
+          onClick={() => deleteUser(user.id, index)} 
+          className="label theme-bg text-c-red f-12"
+        >
+          <i className="feather icon-delete"></i> Delete
+        </Link>
+      </td>
+    </tr>
+  ));
+};
+
 
 
  const fetchUsers = async () => {
