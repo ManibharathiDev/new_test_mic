@@ -128,13 +128,19 @@ const Voters = () => {
   };
 
   const deleteVoter = (id, idx) => {
-    const headers = { Authorization: bearer };
-    let URL = window.API_URL + 'voter/delete/' + id;
-    axios.delete(URL, { headers }).then((res) => {
-      const data = voters.data.filter((item) => item.id != id);
-      setVoters({ ...voters, data: data });
-    });
-  };
+    const headers = { Authorization: `Bearer ${bearer}` };
+    let URL = `${window.API_URL}voter/delete/${id}`;
+
+    axios.delete(URL, { headers })
+        .then((res) => {
+            const data = voters.data.filter((item) => item.id !== id);
+            setVoters({ ...voters, data: data });
+        })
+        .catch((error) => {
+            alert('Error deleting voter: ' + error.message);
+        });
+};
+
 
   const fetchAssembly = async (lokId) => {
     try {
@@ -162,7 +168,7 @@ const Voters = () => {
   };
 
   const renderHeader = () => {
-    let headerElement = ['#', 'name', 'epic number', 'category', 'gender', 'Father Name', 'booth number', 'line', 'Booth Address'];
+    let headerElement = ['#', 'name', 'epic number', 'category', 'gender', 'Father Name', 'booth number', 'line', 'Booth Address','Action'];
 
     return headerElement.map((key, index) => {
       return <th key={index}>{key.toUpperCase()}</th>;
@@ -190,12 +196,13 @@ const Voters = () => {
         <td>{voter.booth_number}</td>
         <td>{voter.line_number}</td>
         <td>{voter.booth_address}</td>
-        {/* <td><Link to={`../app/voter/edit/${voter.id}`} className="label theme-bg2 text-white f-12">
+        <td>
+          {/* <Link to={`../app/voter/edit/${voter.id}`} className="label theme-bg2 text-white f-12">
                 <i className='feather icon-edit'></i> Edit
-                </Link>
+                </Link> */}
                 <Link to="#" onClick={()=>deleteVoter(voter.id,index)} className="label theme-bg text-c-red  f-12">
                 <i className='feather icon-delete'></i> Delete
-                </Link></td> */}
+                </Link></td>
       </tr>
     ));
   };
