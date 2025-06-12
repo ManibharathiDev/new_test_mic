@@ -73,6 +73,21 @@ const routes = [
       },
       {
         exact:'true',
+        path:'/app/payment/view',
+        element: lazy(()=>import('./views/payment/index'))
+      },
+      {
+        exact:'true',
+        path:'/app/payment/edit/:id',
+        element: lazy(()=>import('./views/payment/edit'))
+      },
+      {
+        exact:'true',
+        path:'/app/payment/create',
+        element: lazy(()=>import('./views/payment/create'))
+      },
+      {
+        exact:'true',
         path:'/app/country/view',
         element: lazy(()=>import('./views/country'))
       },

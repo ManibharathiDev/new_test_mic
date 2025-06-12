@@ -68,6 +68,26 @@ const menuItems = {
             ]
         },
         {
+          id: 'booth_payments',
+          title: 'Booth Subscription Payment',
+          type: 'collapse',
+          //url: '/app/users',
+          children:[
+            {
+              id:'view_booth_payments',
+              title:'View Booth Payments',
+              type:'item',
+              url: '/app/payment/view',
+            },
+            {
+                id:'create_booth_payments',
+                title:'Create Booth Payment',
+                type:'item',
+                url: '/app/payment/create',
+            }
+          ]
+      },
+        {
           id: 'countries',
           title: 'Country',
           type: 'collapse',
